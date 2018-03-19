@@ -164,11 +164,10 @@ public class RecipeStepDetailFragment extends Fragment {
     @Override
     public void onSaveInstanceState(Bundle currentState) {
         super.onSaveInstanceState(currentState);
-        currentState.putParcelableArrayList(SELECTED_STEPS,stepsArrayList);
-        currentState.putInt(SELECTED_INDEX,selectedIndex);
+         currentState.getString("desc",recipeDesciption);
 
     }
-/*
+
     @Override
     public void onDetach() {
         super.onDetach();
@@ -205,5 +204,7 @@ public class RecipeStepDetailFragment extends Fragment {
             mExoPlayer.release();
         }
     }
-    */
+
+
+
 }
