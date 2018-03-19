@@ -10,7 +10,6 @@ import android.widget.TextView;
 import java.util.List;
 
 import theo.tziomakas.bakingapp.R;
-import theo.tziomakas.bakingapp.model.Ingredients;
 import theo.tziomakas.bakingapp.model.Recipe;
 import theo.tziomakas.bakingapp.model.Steps;
 
@@ -18,15 +17,26 @@ import theo.tziomakas.bakingapp.model.Steps;
  * Created by theodosiostziomakas on 16/03/2018.
  */
 
-public class StepsAdapter extends RecyclerView.Adapter<StepsAdapter.StepsViewHolder> {
+public class RecipeDetailAdapter extends RecyclerView.Adapter<RecipeDetailAdapter.StepsViewHolder> {
     private static final String LOG_TAG = RecipeAdapter.class.getSimpleName() ;
     private Context context;
     private List<Steps> stepsList;
+    private  String recipeName;
 
-    public StepsAdapter(Context context,List<Steps> stepsList){
-        this.context = context;
+    final private ListItemClickListener lOnClickListener;
+
+    public interface ListItemClickListener {
+        void onListItemClick(Steps steps);
+    }
+
+    public RecipeDetailAdapter(ListItemClickListener listener,List<Steps> stepsList){
+
+        lOnClickListener = listener;
         this.stepsList = stepsList;
     }
+
+
+
 
     @Override
     public StepsViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -43,6 +53,7 @@ public class StepsAdapter extends RecyclerView.Adapter<StepsAdapter.StepsViewHol
         return stepsViewHolder;
     }
 
+
     @Override
     public void onBindViewHolder(StepsViewHolder holder, int position) {
         Steps steps = stepsList.get(position);
@@ -54,12 +65,18 @@ public class StepsAdapter extends RecyclerView.Adapter<StepsAdapter.StepsViewHol
         return stepsList.size();
     }
 
-    public class StepsViewHolder extends RecyclerView.ViewHolder {
+    public class StepsViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
         TextView mStepTextView;
         public StepsViewHolder(View itemView) {
             super(itemView);
-
+            itemView.setOnClickListener(this);
             mStepTextView = itemView.findViewById(R.id.recipe_step_text_view);
+        }
+
+        @Override
+        public void onClick(View v) {
+            int clickedPosition = getAdapterPosition();
+            lOnClickListener.onListItemClick(stepsList.get(clickedPosition));
         }
     }
 }

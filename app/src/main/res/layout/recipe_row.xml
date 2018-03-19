@@ -12,7 +12,6 @@
     android:layout_gravity="center_horizontal">
 
     <RelativeLayout
-        android:id="@+id/rel1"
         android:background="@color/colorPrimary"
         android:layout_width="match_parent"
         android:gravity="center_horizontal"

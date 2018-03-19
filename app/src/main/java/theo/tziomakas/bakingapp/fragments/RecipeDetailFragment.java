@@ -4,20 +4,25 @@ package theo.tziomakas.bakingapp.fragments;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Parcelable;
+import android.support.v4.app.FragmentManager;
+
 import android.support.annotation.RequiresApi;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import theo.tziomakas.bakingapp.MyDividerItemDecoration;
 import theo.tziomakas.bakingapp.R;
-import theo.tziomakas.bakingapp.adapters.StepsAdapter;
+import theo.tziomakas.bakingapp.RecipeDetailActivity;
+import theo.tziomakas.bakingapp.adapters.RecipeDetailAdapter;
 import theo.tziomakas.bakingapp.model.Ingredients;
 import theo.tziomakas.bakingapp.model.Recipe;
 import theo.tziomakas.bakingapp.model.Steps;
@@ -26,12 +31,12 @@ import theo.tziomakas.bakingapp.model.Steps;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class RecipeDetailFragment extends Fragment {
+public class RecipeDetailFragment extends Fragment implements RecipeDetailAdapter.ListItemClickListener{
 
     ArrayList<Recipe> recipeArrayList;
     RecyclerView mRecyclerView;
 
-    StepsAdapter stepsAdapter;
+    RecipeDetailAdapter stepsAdapter;
 
     List<Ingredients> ingredientsList;
     List<Steps> stepsList;
@@ -74,12 +79,28 @@ public class RecipeDetailFragment extends Fragment {
 
         mRecyclerView = view.findViewById(R.id.steps_recycler_view);
 
-        stepsAdapter = new StepsAdapter(getActivity(),stepsList);
+        stepsAdapter = new RecipeDetailAdapter(this,stepsList);
         mRecyclerView.setAdapter(stepsAdapter);
-
 
         return view;
     }
 
+
+    @Override
+    public void onListItemClick(Steps steps) {
+
+            final RecipeStepDetailFragment fragment = new RecipeStepDetailFragment();
+            FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+            //Toast.makeText(getActivity(),"clicked: " + clickedItemIndex,Toast.LENGTH_SHORT).show();
+            Bundle selectedStepBundle = new Bundle();
+            ArrayList<Steps> selectedStep = new ArrayList<>();
+            selectedStep.add(steps);
+            selectedStepBundle.putParcelable("steps",steps);
+            fragment.setArguments(selectedStepBundle);
+
+            fragmentManager.beginTransaction()
+                    .replace(R.id.container, fragment).addToBackStack("STACK_RECIPE_STEP_DETAIL")
+                    .commit();
+        }
 
 }
