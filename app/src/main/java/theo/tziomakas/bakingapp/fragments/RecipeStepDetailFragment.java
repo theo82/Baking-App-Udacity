@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.exoplayer2.DefaultLoadControl;
 import com.google.android.exoplayer2.ExoPlayerFactory;
@@ -34,6 +35,9 @@ import theo.tziomakas.bakingapp.RecipeDetailActivity;
 import theo.tziomakas.bakingapp.adapters.RecipeDetailAdapter;
 import theo.tziomakas.bakingapp.model.Recipe;
 import theo.tziomakas.bakingapp.model.Steps;
+
+import static theo.tziomakas.bakingapp.RecipeDetailActivity.SELECTED_INDEX;
+import static theo.tziomakas.bakingapp.RecipeDetailActivity.SELECTED_STEPS;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -72,11 +76,13 @@ public class RecipeStepDetailFragment extends Fragment {
 
         View v = inflater.inflate(R.layout.fragment_recipe_step_detail, container, false);
 
-        stepsArrayList = getArguments().getParcelableArrayList("Selected_Steps");
+        itemClickListener = (RecipeDetailActivity) getActivity();
+
+        stepsArrayList = getArguments().getParcelableArrayList(SELECTED_STEPS);
 
         if(stepsArrayList!=null) {
-            stepsArrayList = getArguments().getParcelableArrayList("Selected_Steps");
-            selectedIndex = getArguments().getInt("Selected_Index");
+            stepsArrayList = getArguments().getParcelableArrayList(SELECTED_STEPS);
+            selectedIndex = getArguments().getInt(SELECTED_INDEX);
         }
 
 
@@ -108,12 +114,14 @@ public class RecipeStepDetailFragment extends Fragment {
                     if (mExoPlayer!=null){
                         mExoPlayer.stop();
                     }
-                    int i = stepsArrayList.get(selectedIndex).getStepId() - 1;
-                    itemClickListener.onListItemClick(stepsArrayList,i);
+
+                    itemClickListener.onListItemClick(stepsArrayList,stepsArrayList.get(selectedIndex).getStepId() - 1);
                     //itemClickListener.onListItemClick(steps,);
+                }else {
+                    Toast.makeText(getActivity(), "You already are in the First step of the recipe", Toast.LENGTH_SHORT).show();
                 }
-            }
-        });
+
+        }});
 
         return v;
 

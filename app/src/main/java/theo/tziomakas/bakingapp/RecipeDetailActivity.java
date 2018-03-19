@@ -14,10 +14,11 @@ import theo.tziomakas.bakingapp.fragments.RecipeStepDetailFragment;
 import theo.tziomakas.bakingapp.model.Recipe;
 import theo.tziomakas.bakingapp.model.Steps;
 
-public class RecipeDetailActivity extends AppCompatActivity implements RecipeDetailAdapter.ListItemClickListener{
+public class RecipeDetailActivity extends AppCompatActivity implements RecipeDetailAdapter.ListItemClickListener,RecipeStepDetailFragment.ListItemClickListener{
 
-    static String STACK_RECIPE_STEP_DETAIL="STACK_RECIPE_STEP_DETAIL";
-
+    public static String SELECTED_STEPS="Selected_Steps";
+    public static String SELECTED_INDEX="Selected_Index";
+    public static String STACK_RECIPE_STEP_DETAIL="STACK_RECIPE_STEP_DETAIL";
     private ArrayList<Steps> steps;
 
 
@@ -44,12 +45,17 @@ public class RecipeDetailActivity extends AppCompatActivity implements RecipeDet
         FragmentManager fragmentManager = getSupportFragmentManager();
 
         Bundle stepBundle = new Bundle();
-        stepBundle.putParcelableArrayList("Selected_Steps",(ArrayList<Steps>) stepsOut);
-        stepBundle.putInt("Selected_Index",clickedItemIndex);
+        stepBundle.putParcelableArrayList(SELECTED_STEPS,(ArrayList<Steps>) stepsOut);
+        stepBundle.putInt(SELECTED_INDEX,clickedItemIndex);
         fragment.setArguments(stepBundle);
 
         fragmentManager.beginTransaction()
                 .replace(R.id.container, fragment).addToBackStack(STACK_RECIPE_STEP_DETAIL)
                 .commit();
+    }
+
+    @Override
+    public void onListItemClick(ArrayList<Steps> steps, int index) {
+
     }
 }

@@ -26,7 +26,7 @@ public class RecipeDetailAdapter extends RecyclerView.Adapter<RecipeDetailAdapte
     final private ListItemClickListener lOnClickListener;
 
     public interface ListItemClickListener {
-        void onListItemClick(List<Steps> stepsOut,int clickedItemIndex);
+        void onListItemClick(List<Steps> steps,int clickedItemIndex);
     }
 
     public RecipeDetailAdapter(ListItemClickListener listener,List<Steps> stepsList){
