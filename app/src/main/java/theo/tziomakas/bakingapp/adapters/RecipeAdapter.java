@@ -42,13 +42,13 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeView
     private Context context;
     private List<Recipe> recipeList;
 
-    final private ListItemClickListener mClickHandler;
+    final private RecipeAdapterOnClickHandler mClickHandler;
 
-    public interface ListItemClickListener{
+    public interface RecipeAdapterOnClickHandler{
         void onClick(Recipe clickedItemIndex);
     }
 
-    public RecipeAdapter(Context context, List<Recipe> recipeList, ListItemClickListener mClickHandler) {
+    public RecipeAdapter(Context context, List<Recipe> recipeList, RecipeAdapterOnClickHandler mClickHandler) {
         this.context = context;
         this.recipeList = recipeList;
         this.mClickHandler = mClickHandler;

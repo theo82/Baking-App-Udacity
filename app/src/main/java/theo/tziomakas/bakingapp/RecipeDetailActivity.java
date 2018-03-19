@@ -1,6 +1,5 @@
 package theo.tziomakas.bakingapp;
 
-import android.content.Intent;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -19,8 +18,6 @@ public class RecipeDetailActivity extends AppCompatActivity implements RecipeDet
     public static String SELECTED_STEPS="Selected_Steps";
     public static String SELECTED_INDEX="Selected_Index";
     public static String STACK_RECIPE_STEP_DETAIL="STACK_RECIPE_STEP_DETAIL";
-    private ArrayList<Steps> steps;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,8 +49,5 @@ public class RecipeDetailActivity extends AppCompatActivity implements RecipeDet
                 .commit();
     }
 
-    @Override
-    public void onListItemClick(ArrayList<Steps> steps, int index) {
 
-    }
 }

@@ -84,7 +84,6 @@ public class RecipeDetailFragment extends Fragment{
         stepsAdapter = new RecipeDetailAdapter((RecipeDetailActivity)getActivity(),stepsList);
         mRecyclerView.setAdapter(stepsAdapter);
 
-
         return view;
     }
 

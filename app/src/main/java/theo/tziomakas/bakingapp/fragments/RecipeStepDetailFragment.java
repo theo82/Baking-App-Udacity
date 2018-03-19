@@ -26,6 +26,7 @@ import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory;
 import com.google.android.exoplayer2.util.Util;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import theo.tziomakas.bakingapp.R;
 import theo.tziomakas.bakingapp.RecipeDetailActivity;
@@ -61,7 +62,7 @@ public class RecipeStepDetailFragment extends Fragment {
     private ListItemClickListener itemClickListener;
 
     public interface ListItemClickListener {
-        void onListItemClick(ArrayList<Steps> steps, int index);
+        void onListItemClick(List<Steps> steps,int clickedItemIndex);
     }
 
 
@@ -89,7 +90,6 @@ public class RecipeStepDetailFragment extends Fragment {
             videoUrl = stepsArrayList.get(selectedIndex).getVideoUrl();
 
             mPlayerView = v.findViewById(R.id.playerView);
-
 
             if (!videoUrl.isEmpty()) {
                 initialize(Uri.parse(videoUrl));
@@ -142,6 +142,7 @@ public class RecipeStepDetailFragment extends Fragment {
             mExoPlayer.setPlayWhenReady(true);
         }
     }
+
     @Override
     public void onSaveInstanceState(Bundle currentState) {
         super.onSaveInstanceState(currentState);
