@@ -115,7 +115,7 @@ public class RecipeStepDetailFragment extends Fragment {
                         }
                         itemClickListener.onListItemClick(stepsArrayList, stepsArrayList.get(selectedIndex).getStepId() - 1);
 
-                        getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.container, new RecipeStepDetailFragment()).commit();
+                        //getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.container, new RecipeStepDetailFragment()).commit();
                     } else {
                         Toast.makeText(getActivity(), "You already are in the First step of the recipe", Toast.LENGTH_SHORT).show();
                     }
