@@ -1,7 +1,5 @@
 package theo.tziomakas.bakingapp.fragments;
 
-
-import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -28,12 +26,10 @@ import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory;
 import com.google.android.exoplayer2.util.Util;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import theo.tziomakas.bakingapp.R;
 import theo.tziomakas.bakingapp.RecipeDetailActivity;
-import theo.tziomakas.bakingapp.adapters.RecipeDetailAdapter;
-import theo.tziomakas.bakingapp.model.Recipe;
+
 import theo.tziomakas.bakingapp.model.Steps;
 
 import static theo.tziomakas.bakingapp.RecipeDetailActivity.SELECTED_INDEX;
@@ -78,51 +74,56 @@ public class RecipeStepDetailFragment extends Fragment {
 
         itemClickListener = (RecipeDetailActivity) getActivity();
 
-        stepsArrayList = getArguments().getParcelableArrayList(SELECTED_STEPS);
-
-        if(stepsArrayList!=null) {
+        if(savedInstanceState != null) {
+            stepsArrayList = savedInstanceState.getParcelableArrayList(SELECTED_STEPS);
+            selectedIndex = savedInstanceState.getInt(SELECTED_INDEX);
+        }else {
             stepsArrayList = getArguments().getParcelableArrayList(SELECTED_STEPS);
-            selectedIndex = getArguments().getInt(SELECTED_INDEX);
-        }
+
+            if (stepsArrayList != null) {
+                stepsArrayList = getArguments().getParcelableArrayList(SELECTED_STEPS);
+                selectedIndex = getArguments().getInt(SELECTED_INDEX);
+            }
 
 
+            videoUrl = stepsArrayList.get(selectedIndex).getVideoUrl();
 
-        videoUrl = stepsArrayList.get(selectedIndex).getVideoUrl();
-
-        mPlayerView = v.findViewById(R.id.playerView);
+            mPlayerView = v.findViewById(R.id.playerView);
 
 
-        if(!videoUrl.isEmpty()){
-            initialize(Uri.parse(videoUrl));
-        }else{
-            mExoPlayer = null;
-            mPlayerView.setForeground(ContextCompat.getDrawable(getContext(), R.drawable.ic_visibility_off_white_36dp));
-            mPlayerView.setLayoutParams(new LinearLayout.LayoutParams(300, 300));
-        }
+            if (!videoUrl.isEmpty()) {
+                initialize(Uri.parse(videoUrl));
+            } else {
+                mExoPlayer = null;
+                mPlayerView.setForeground(ContextCompat.getDrawable(getContext(), R.drawable.ic_visibility_off_white_36dp));
+                mPlayerView.setLayoutParams(new LinearLayout.LayoutParams(300, 300));
+            }
 
-        recipeDescriptionTextView = v.findViewById(R.id. recipe_step_detail_text);
+            recipeDescriptionTextView = v.findViewById(R.id.recipe_step_detail_text);
 
-        recipeDescriptionTextView.setText(recipeDesciption);
+            recipeDescriptionTextView.setText(recipeDesciption);
 
-        mPrevStep = v.findViewById(R.id.previousStep);
-        mNextstep = v.findViewById(R.id.nextStep);
+            mPrevStep = v.findViewById(R.id.previousStep);
+            mNextstep = v.findViewById(R.id.nextStep);
 
-        mPrevStep.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(stepsArrayList.get(selectedIndex).getStepId() > 0){
-                    if (mExoPlayer!=null){
-                        mExoPlayer.stop();
+            mPrevStep.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (stepsArrayList.get(selectedIndex).getStepId() > 0) {
+                        if (mExoPlayer != null) {
+                            mExoPlayer.stop();
+                        }
+                        itemClickListener.onListItemClick(stepsArrayList, stepsArrayList.get(selectedIndex).getStepId() - 1);
+
+                        getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.container, new RecipeStepDetailFragment()).commit();
+                    } else {
+                        Toast.makeText(getActivity(), "You already are in the First step of the recipe", Toast.LENGTH_SHORT).show();
                     }
 
-                    itemClickListener.onListItemClick(stepsArrayList,stepsArrayList.get(selectedIndex).getStepId() - 1);
-                    //itemClickListener.onListItemClick(steps,);
-                }else {
-                    Toast.makeText(getActivity(), "You already are in the First step of the recipe", Toast.LENGTH_SHORT).show();
                 }
+            });
 
-        }});
-
+        }
         return v;
 
     }
@@ -141,7 +142,13 @@ public class RecipeStepDetailFragment extends Fragment {
             mExoPlayer.setPlayWhenReady(true);
         }
     }
+    @Override
+    public void onSaveInstanceState(Bundle currentState) {
+        super.onSaveInstanceState(currentState);
+        currentState.putParcelableArrayList(SELECTED_STEPS,stepsArrayList);
+        currentState.putInt(SELECTED_INDEX,selectedIndex);
 
+    }
 /*
     @Override
     public void onDetach() {
