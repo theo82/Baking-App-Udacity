@@ -6,6 +6,32 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.Loader;
+import android.support.v7.widget.RecyclerView;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.Toast;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import theo.tziomakas.bakingapp.MyDividerItemDecoration;
+import theo.tziomakas.bakingapp.R;
+import theo.tziomakas.bakingapp.RecipeDetailActivity;
+import theo.tziomakas.bakingapp.adapters.RecipeAdapter;
+import theo.tziomakas.bakingapp.model.Ingredients;
+import theo.tziomakas.bakingapp.model.Recipe;
+import theo.tziomakas.bakingapp.network.RecipeLoader;
+
+
+/**
+ * A simple {@link Fragment} subclass.
+ */
+import android.content.Intent;
+import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.LoaderManager;
+import android.support.v4.content.Loader;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -30,7 +56,7 @@ import theo.tziomakas.bakingapp.network.RecipeLoader;
  * A simple {@link Fragment} subclass.
  */
 public class MainActivityFragment extends Fragment
- implements LoaderManager.LoaderCallbacks<Object>, RecipeAdapter.ListItemClickListener{
+        implements LoaderManager.LoaderCallbacks<Object>, RecipeAdapter.ListItemClickListener{
 
     public static final String LOG_TAG = "MainActivityFragment";
     public static final int RECIPE_LOADER_ID = 0;

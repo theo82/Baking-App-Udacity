@@ -43,6 +43,7 @@ public class RecipeStepDetailFragment extends Fragment {
     //private ArrayList<Steps> stepsArrayList = new ArrayList<>();
     Steps steps;
 
+    private ArrayList<Steps> stepsArrayList = new ArrayList<>();
     private SimpleExoPlayer mExoPlayer;
     private SimpleExoPlayerView mPlayerView;
     private TextView recipeDescriptionTextView;
@@ -69,6 +70,8 @@ public class RecipeStepDetailFragment extends Fragment {
         // Inflate the layout for this fragment
 
         View v = inflater.inflate(R.layout.fragment_recipe_step_detail, container, false);
+
+        stepsArrayList = getArguments().getParcelableArrayList("steps_list");
 
         steps = getArguments().getParcelable("steps");
 

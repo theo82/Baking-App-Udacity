@@ -33,7 +33,7 @@ import theo.tziomakas.bakingapp.model.Steps;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class RecipeDetailFragment extends Fragment{
+public class RecipeDetailFragment extends Fragment implements RecipeDetailAdapter.ListItemClickListener{
 
     ArrayList<Recipe> recipeArrayList;
     RecyclerView mRecyclerView;
@@ -81,7 +81,7 @@ public class RecipeDetailFragment extends Fragment{
 
         mRecyclerView = view.findViewById(R.id.steps_recycler_view);
 
-        stepsAdapter = new RecipeDetailAdapter((RecipeDetailActivity)getActivity(),stepsList);
+        stepsAdapter = new RecipeDetailAdapter(this,stepsList);
         mRecyclerView.setAdapter(stepsAdapter);
 
 
@@ -89,6 +89,20 @@ public class RecipeDetailFragment extends Fragment{
     }
 
 
+    @Override
+    public void onListItemClick(Steps steps) {
 
+            final RecipeStepDetailFragment fragment = new RecipeStepDetailFragment();
+            FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+            //Toast.makeText(getActivity(),"clicked: " + clickedItemIndex,Toast.LENGTH_SHORT).show();
+            Bundle selectedStepBundle = new Bundle();
+            selectedStepBundle.putParcelableArrayList("steps_list", (ArrayList<? extends Parcelable>) stepsList);
+            selectedStepBundle.putParcelable("steps",steps);
+            fragment.setArguments(selectedStepBundle);
+
+            fragmentManager.beginTransaction()
+                    .replace(R.id.container, fragment).addToBackStack("STACK_RECIPE_STEP_DETAIL")
+                    .commit();
+        }
 
 }

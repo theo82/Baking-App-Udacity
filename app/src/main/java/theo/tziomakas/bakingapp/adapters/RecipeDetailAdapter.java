@@ -35,9 +35,6 @@ public class RecipeDetailAdapter extends RecyclerView.Adapter<RecipeDetailAdapte
         this.stepsList = stepsList;
     }
 
-
-
-
     @Override
     public StepsViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         Context context = parent.getContext();
