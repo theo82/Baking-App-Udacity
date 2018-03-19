@@ -56,6 +56,11 @@ public class RecipeDetailActivity extends AppCompatActivity implements RecipeDet
 
     @Override
     public void onListItemClick(ArrayList<Steps> steps, int index) {
+        final RecipeStepDetailFragment fragment = new RecipeStepDetailFragment();
+        FragmentManager fragmentManager = getSupportFragmentManager();
 
+        fragmentManager.beginTransaction()
+                .replace(R.id.container, fragment).addToBackStack(STACK_RECIPE_STEP_DETAIL)
+                .commit();
     }
 }
