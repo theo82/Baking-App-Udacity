@@ -88,7 +88,6 @@ public class RecipeDetailFragment extends Fragment implements RecipeDetailAdapte
         return view;
     }
 
-
     @Override
     public void onListItemClick(Steps steps) {
 
