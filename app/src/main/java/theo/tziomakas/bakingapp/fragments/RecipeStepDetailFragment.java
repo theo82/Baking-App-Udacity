@@ -125,6 +125,22 @@ public class RecipeStepDetailFragment extends Fragment {
                 }
             });
 
+            mNextstep.setOnClickListener(new View.OnClickListener() {
+                public void onClick(View view) {
+
+                    int lastIndex = stepsArrayList.size()-1;
+                    if (stepsArrayList.get(selectedIndex).getStepId() < stepsArrayList.get(lastIndex).getStepId()) {
+                        if (mExoPlayer!=null){
+                            mExoPlayer.stop();
+                        }
+                        itemClickListener.onListItemClick(stepsArrayList,stepsArrayList.get(selectedIndex).getStepId() + 1);
+                    }
+                    else {
+                        Toast.makeText(getContext(),"You already are in the Last step of the recipe", Toast.LENGTH_SHORT).show();
+
+                    }
+                }});
+
         }
         return v;
 
