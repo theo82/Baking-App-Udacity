@@ -168,7 +168,7 @@ public class RecipeStepDetailFragment extends Fragment {
         currentState.putInt(SELECTED_INDEX,selectedIndex);
 
     }
-/*
+
     @Override
     public void onDetach() {
         super.onDetach();
@@ -205,5 +205,5 @@ public class RecipeStepDetailFragment extends Fragment {
             mExoPlayer.release();
         }
     }
-    */
+
 }
