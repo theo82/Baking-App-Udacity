@@ -26,7 +26,7 @@ public class RecipeDetailAdapter extends RecyclerView.Adapter<RecipeDetailAdapte
     final private ListItemClickListener lOnClickListener;
 
     public interface ListItemClickListener {
-        void onListItemClick(Steps steps);
+        void onListItemClick(List<Steps> stepsOut,int clickedItemIndex);
     }
 
     public RecipeDetailAdapter(ListItemClickListener listener,List<Steps> stepsList){
@@ -73,7 +73,7 @@ public class RecipeDetailAdapter extends RecyclerView.Adapter<RecipeDetailAdapte
         @Override
         public void onClick(View v) {
             int clickedPosition = getAdapterPosition();
-            lOnClickListener.onListItemClick(stepsList.get(clickedPosition));
+            lOnClickListener.onListItemClick(stepsList,clickedPosition);
         }
     }
 }

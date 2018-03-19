@@ -36,20 +36,20 @@ public class RecipeDetailActivity extends AppCompatActivity implements RecipeDet
     }
 
 
+
     @Override
-    public void onListItemClick(Steps steps) {
+    public void onListItemClick(List<Steps> stepsOut, int clickedItemIndex) {
 
         final RecipeStepDetailFragment fragment = new RecipeStepDetailFragment();
         FragmentManager fragmentManager = getSupportFragmentManager();
-        //Toast.makeText(getActivity(),"clicked: " + clickedItemIndex,Toast.LENGTH_SHORT).show();
-        Bundle selectedStepBundle = new Bundle();
-        ArrayList<Steps> selectedStep = new ArrayList<>();
-        selectedStep.add(steps);
-        selectedStepBundle.putParcelable("steps",steps);
-        fragment.setArguments(selectedStepBundle);
+
+        Bundle stepBundle = new Bundle();
+        stepBundle.putParcelableArrayList("Selected_Steps",(ArrayList<Steps>) stepsOut);
+        stepBundle.putInt("Selected_Index",clickedItemIndex);
+        fragment.setArguments(stepBundle);
 
         fragmentManager.beginTransaction()
-                .replace(R.id.container, fragment).addToBackStack("STACK_RECIPE_STEP_DETAIL")
+                .replace(R.id.container, fragment).addToBackStack(STACK_RECIPE_STEP_DETAIL)
                 .commit();
     }
 }

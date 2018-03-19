@@ -48,6 +48,7 @@ public class RecipeStepDetailFragment extends Fragment {
     private SimpleExoPlayerView mPlayerView;
     private TextView recipeDescriptionTextView;
     private String recipeDesciption;
+    private int selectedIndex;
 
     private Button mPrevStep;
     private Button mNextstep;
@@ -60,7 +61,7 @@ public class RecipeStepDetailFragment extends Fragment {
     private ListItemClickListener itemClickListener;
 
     public interface ListItemClickListener {
-        void onListItemClick(Steps steps1, int index);
+        void onListItemClick(ArrayList<Steps> steps, int index);
     }
 
 
@@ -71,13 +72,16 @@ public class RecipeStepDetailFragment extends Fragment {
 
         View v = inflater.inflate(R.layout.fragment_recipe_step_detail, container, false);
 
-        stepsArrayList = getArguments().getParcelableArrayList("steps_list");
+        stepsArrayList = getArguments().getParcelableArrayList("Selected_Steps");
 
-        steps = getArguments().getParcelable("steps");
+        if(stepsArrayList!=null) {
+            stepsArrayList = getArguments().getParcelableArrayList("Selected_Steps");
+            selectedIndex = getArguments().getInt("Selected_Index");
+        }
 
-        recipeDesciption = steps.getDescription();
 
-        videoUrl = steps.getVideoUrl();
+
+        videoUrl = stepsArrayList.get(selectedIndex).getVideoUrl();
 
         mPlayerView = v.findViewById(R.id.playerView);
 
@@ -100,11 +104,12 @@ public class RecipeStepDetailFragment extends Fragment {
         mPrevStep.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(steps.getStepId() > 0){
+                if(stepsArrayList.get(selectedIndex).getStepId() > 0){
                     if (mExoPlayer!=null){
                         mExoPlayer.stop();
                     }
-                    //itemClickListener.onListItemClick(steps,steps - 1);
+                    int i = stepsArrayList.get(selectedIndex).getStepId() - 1;
+                    itemClickListener.onListItemClick(stepsArrayList,i);
                     //itemClickListener.onListItemClick(steps,);
                 }
             }
@@ -129,8 +134,7 @@ public class RecipeStepDetailFragment extends Fragment {
         }
     }
 
-
-
+/*
     @Override
     public void onDetach() {
         super.onDetach();
@@ -167,4 +171,5 @@ public class RecipeStepDetailFragment extends Fragment {
             mExoPlayer.release();
         }
     }
+    */
 }
