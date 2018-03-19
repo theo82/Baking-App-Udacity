@@ -89,6 +89,8 @@ public class RecipeStepDetailFragment extends Fragment {
 
             videoUrl = stepsArrayList.get(selectedIndex).getVideoUrl();
 
+            recipeDesciption = stepsArrayList.get(selectedIndex).getDescription();
+
             mPlayerView = v.findViewById(R.id.playerView);
 
             if (!videoUrl.isEmpty()) {

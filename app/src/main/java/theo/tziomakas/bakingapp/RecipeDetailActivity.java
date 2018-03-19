@@ -45,7 +45,7 @@ public class RecipeDetailActivity extends AppCompatActivity implements RecipeDet
         fragment.setArguments(stepBundle);
 
         fragmentManager.beginTransaction()
-                .replace(R.id.container, fragment).addToBackStack(STACK_RECIPE_STEP_DETAIL)
+                .replace(R.id.container, fragment)
                 .commit();
     }
 
