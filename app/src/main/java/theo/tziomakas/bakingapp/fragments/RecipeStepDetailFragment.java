@@ -83,6 +83,9 @@ public class RecipeStepDetailFragment extends Fragment {
             stepsArrayList = savedInstanceState.getParcelableArrayList(SELECTED_STEPS);
             selectedIndex = savedInstanceState.getInt(SELECTED_INDEX);
             videoUrl = savedInstanceState.getString("videoUrl");
+            mPlayerView = v.findViewById(R.id.playerView);
+
+
         }else {
             stepsArrayList = getArguments().getParcelableArrayList(SELECTED_STEPS);
 
