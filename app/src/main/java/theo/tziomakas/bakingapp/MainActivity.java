@@ -16,7 +16,7 @@ import theo.tziomakas.bakingapp.adapters.RecipeAdapter;
 import theo.tziomakas.bakingapp.fragments.RecipeDetailFragment;
 import theo.tziomakas.bakingapp.model.Recipe;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements RecipeAdapter.RecipeAdapterOnClickHandler{
 
     @Nullable
     private SimpleIdlingResource mIdlingResource;
@@ -49,5 +49,15 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
+    @Override
+    public void onClick(Recipe clickedItemIndex) {
+        Bundle selectedRecipeBundle = new Bundle();
+        ArrayList<Recipe> selectedRecipe = new ArrayList<>();
+        selectedRecipe.add(clickedItemIndex);
+        selectedRecipeBundle.putParcelableArrayList("recipe",selectedRecipe);
 
+        final Intent intent = new Intent(this, RecipeDetailActivity.class);
+        intent.putExtras(selectedRecipeBundle);
+        startActivity(intent);
+    }
 }

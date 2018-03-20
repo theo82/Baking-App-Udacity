@@ -48,8 +48,8 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeView
         void onClick(Recipe clickedItemIndex);
     }
 
-    public RecipeAdapter(Context context, List<Recipe> recipeList, RecipeAdapterOnClickHandler mClickHandler) {
-        this.context = context;
+    public RecipeAdapter(RecipeAdapterOnClickHandler mClickHandler, List<Recipe> recipeList) {
+        //this.context = context;
         this.recipeList = recipeList;
         this.mClickHandler = mClickHandler;
     }

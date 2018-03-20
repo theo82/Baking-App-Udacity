@@ -17,6 +17,7 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.List;
 
+import theo.tziomakas.bakingapp.MainActivity;
 import theo.tziomakas.bakingapp.MyDividerItemDecoration;
 import theo.tziomakas.bakingapp.R;
 import theo.tziomakas.bakingapp.RecipeDetailActivity;
@@ -30,7 +31,7 @@ import theo.tziomakas.bakingapp.network.RecipeLoader;
  * A simple {@link Fragment} subclass.
  */
 public class MainActivityFragment extends Fragment
- implements LoaderManager.LoaderCallbacks<Object>, RecipeAdapter.RecipeAdapterOnClickHandler{
+ implements LoaderManager.LoaderCallbacks<Object>{
 
     public static final String LOG_TAG = "MainActivityFragment";
     public static final int RECIPE_LOADER_ID = 0;
@@ -57,7 +58,7 @@ public class MainActivityFragment extends Fragment
 
         mRecyclerView = view.findViewById(R.id.recipe_recycler_view);
 
-        mRecipeAdapter = new RecipeAdapter(getActivity(),mRecipeList,  this);
+        mRecipeAdapter = new RecipeAdapter((MainActivity)getActivity(),mRecipeList);
         mRecyclerView.setAdapter(mRecipeAdapter);
 
         if (view.getTag()!=null && view.getTag().equals("phone-land")){
@@ -105,16 +106,5 @@ public class MainActivityFragment extends Fragment
 
     }
 
-    @Override
-    public void onClick(Recipe clickedItemIndex) {
-        Bundle selectedRecipeBundle = new Bundle();
-        ArrayList<Recipe> selectedRecipe = new ArrayList<>();
-        selectedRecipe.add(clickedItemIndex);
-        selectedRecipeBundle.putParcelableArrayList("recipe",selectedRecipe);
 
-        final Intent intent = new Intent(getActivity(), RecipeDetailActivity.class);
-        intent.putExtras(selectedRecipeBundle);
-        startActivity(intent);
-
-    }
 }

@@ -77,6 +77,8 @@ public class RecipeStepDetailFragment extends Fragment {
 
         View v = inflater.inflate(R.layout.fragment_recipe_step_detail, container, false);
 
+        recipeDescriptionTextView = v.findViewById(R.id.recipe_step_detail_text);
+
         itemClickListener = (RecipeDetailActivity) getActivity();
 
         if(savedInstanceState != null) {
@@ -86,6 +88,10 @@ public class RecipeStepDetailFragment extends Fragment {
             playbackPosition = savedInstanceState.getLong("playbackPosition");
             mPlayerView = v.findViewById(R.id.playerView);
             playWhenReady = savedInstanceState.getBoolean("playWhenReady");
+            recipeDesciption = savedInstanceState.getString("description");
+
+            recipeDescriptionTextView.setText(recipeDesciption);
+
 
         }else {
             stepsArrayList = getArguments().getParcelableArrayList(SELECTED_STEPS);
@@ -110,7 +116,7 @@ public class RecipeStepDetailFragment extends Fragment {
                 mPlayerView.setLayoutParams(new LinearLayout.LayoutParams(300, 300));
             }
 
-            recipeDescriptionTextView = v.findViewById(R.id.recipe_step_detail_text);
+
 
             recipeDescriptionTextView.setText(recipeDesciption);
 
@@ -206,9 +212,7 @@ public class RecipeStepDetailFragment extends Fragment {
 
     private void releasePlayer() {
         if (mExoPlayer != null) {
-            playbackPosition = mExoPlayer.getCurrentPosition();
-            currentWindow = mExoPlayer.getCurrentWindowIndex();
-            playWhenReady = mExoPlayer.getPlayWhenReady();
+
             mExoPlayer.release();
             mExoPlayer = null;
         }
@@ -218,9 +222,15 @@ public class RecipeStepDetailFragment extends Fragment {
     @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
+
+        playbackPosition = mExoPlayer.getCurrentPosition();
+        currentWindow = mExoPlayer.getCurrentWindowIndex();
+        playWhenReady = mExoPlayer.getPlayWhenReady();
+
         outState.putParcelableArrayList(SELECTED_STEPS,stepsArrayList);
         outState.putInt(SELECTED_INDEX,selectedIndex);
         outState.putString("videoUrl",videoUrl);
+        outState.putString("description",recipeDesciption);
         outState.putLong("playbackPosition",playbackPosition);
         outState.putBoolean("playWhenReady",playWhenReady);
 
