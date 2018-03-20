@@ -93,6 +93,7 @@ public class RecipeStepDetailFragment extends Fragment {
             recipeDescriptionTextView.setText(recipeDesciption);
 
 
+
         }else {
             stepsArrayList = getArguments().getParcelableArrayList(SELECTED_STEPS);
 
@@ -118,42 +119,42 @@ public class RecipeStepDetailFragment extends Fragment {
 
         }
 
-            recipeDescriptionTextView.setText(recipeDesciption);
+        recipeDescriptionTextView.setText(recipeDesciption);
 
-            mPrevStep = v.findViewById(R.id.previousStep);
-            mNextstep = v.findViewById(R.id.nextStep);
+        mPrevStep = v.findViewById(R.id.previousStep);
+        mNextstep = v.findViewById(R.id.nextStep);
 
-            mPrevStep.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if (stepsArrayList.get(selectedIndex).getStepId() > 0) {
-                        if (mExoPlayer != null) {
-                            mExoPlayer.stop();
-                        }
-                        itemClickListener.onListItemClick(stepsArrayList, stepsArrayList.get(selectedIndex).getStepId() - 1);
-
-                    } else {
-                        Toast.makeText(getActivity(), "You already are in the First step of the recipe", Toast.LENGTH_SHORT).show();
+        mPrevStep.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (stepsArrayList.get(selectedIndex).getStepId() > 0) {
+                    if (mExoPlayer != null) {
+                        mExoPlayer.stop();
                     }
+                    itemClickListener.onListItemClick(stepsArrayList, stepsArrayList.get(selectedIndex).getStepId() - 1);
+
+                } else {
+                    Toast.makeText(getActivity(), "You already are in the First step of the recipe", Toast.LENGTH_SHORT).show();
+                }
+
+            }
+        });
+
+        mNextstep.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View view) {
+
+                int lastIndex = stepsArrayList.size()-1;
+                if (stepsArrayList.get(selectedIndex).getStepId() < stepsArrayList.get(lastIndex).getStepId()) {
+                    if (mExoPlayer!=null){
+                        mExoPlayer.stop();
+                    }
+                    itemClickListener.onListItemClick(stepsArrayList,stepsArrayList.get(selectedIndex).getStepId() + 1);
+                }
+                else {
+                    Toast.makeText(getContext(),"You already are in the Last step of the recipe", Toast.LENGTH_SHORT).show();
 
                 }
-            });
-
-            mNextstep.setOnClickListener(new View.OnClickListener() {
-                public void onClick(View view) {
-
-                    int lastIndex = stepsArrayList.size()-1;
-                    if (stepsArrayList.get(selectedIndex).getStepId() < stepsArrayList.get(lastIndex).getStepId()) {
-                        if (mExoPlayer!=null){
-                            mExoPlayer.stop();
-                        }
-                        itemClickListener.onListItemClick(stepsArrayList,stepsArrayList.get(selectedIndex).getStepId() + 1);
-                    }
-                    else {
-                        Toast.makeText(getContext(),"You already are in the Last step of the recipe", Toast.LENGTH_SHORT).show();
-
-                    }
-                }});
+            }});
 
 
         return v;
@@ -223,9 +224,11 @@ public class RecipeStepDetailFragment extends Fragment {
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
 
-        playbackPosition = mExoPlayer.getCurrentPosition();
-        currentWindow = mExoPlayer.getCurrentWindowIndex();
-        playWhenReady = mExoPlayer.getPlayWhenReady();
+        if (mExoPlayer != null) {
+            playbackPosition = mExoPlayer.getCurrentPosition();
+            currentWindow = mExoPlayer.getCurrentWindowIndex();
+            playWhenReady = mExoPlayer.getPlayWhenReady();
+        }
 
         outState.putParcelableArrayList(SELECTED_STEPS,stepsArrayList);
         outState.putInt(SELECTED_INDEX,selectedIndex);
@@ -245,6 +248,6 @@ public class RecipeStepDetailFragment extends Fragment {
                 | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY
                 | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
                 | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION);
-}
+    }
 
 }
