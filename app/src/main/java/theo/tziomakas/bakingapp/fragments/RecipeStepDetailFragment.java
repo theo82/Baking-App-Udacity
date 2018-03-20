@@ -116,7 +116,7 @@ public class RecipeStepDetailFragment extends Fragment {
                 mPlayerView.setLayoutParams(new LinearLayout.LayoutParams(300, 300));
             }
 
-
+        }
 
             recipeDescriptionTextView.setText(recipeDesciption);
 
@@ -155,7 +155,7 @@ public class RecipeStepDetailFragment extends Fragment {
                     }
                 }});
 
-        }
+
         return v;
 
     }
