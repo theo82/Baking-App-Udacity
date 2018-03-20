@@ -1,5 +1,6 @@
 package theo.tziomakas.bakingapp.fragments;
 
+import android.annotation.SuppressLint;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -13,6 +14,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.exoplayer2.DefaultLoadControl;
+import com.google.android.exoplayer2.DefaultRenderersFactory;
 import com.google.android.exoplayer2.ExoPlayerFactory;
 import com.google.android.exoplayer2.LoadControl;
 import com.google.android.exoplayer2.SimpleExoPlayer;
@@ -23,6 +25,7 @@ import com.google.android.exoplayer2.trackselection.DefaultTrackSelector;
 import com.google.android.exoplayer2.trackselection.TrackSelector;
 import com.google.android.exoplayer2.ui.SimpleExoPlayerView;
 import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory;
+import com.google.android.exoplayer2.upstream.DefaultHttpDataSourceFactory;
 import com.google.android.exoplayer2.util.Util;
 
 import java.util.ArrayList;
@@ -50,6 +53,10 @@ public class RecipeStepDetailFragment extends Fragment {
     private TextView recipeDescriptionTextView;
     private String recipeDesciption;
     private int selectedIndex;
+
+    private long playbackPosition;
+    private int currentWindow;
+    private boolean playWhenReady = true;
 
     private Button mPrevStep;
     private Button mNextstep;
@@ -94,7 +101,7 @@ public class RecipeStepDetailFragment extends Fragment {
             mPlayerView = v.findViewById(R.id.playerView);
 
             if (!videoUrl.isEmpty()) {
-                initialize(Uri.parse(videoUrl));
+                initializePlayer();
             } else {
                 mExoPlayer = null;
                 mPlayerView.setForeground(ContextCompat.getDrawable(getContext(), R.drawable.ic_visibility_off_white_36dp));
@@ -117,7 +124,6 @@ public class RecipeStepDetailFragment extends Fragment {
                         }
                         itemClickListener.onListItemClick(stepsArrayList, stepsArrayList.get(selectedIndex).getStepId() - 1);
 
-                        //getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.container, new RecipeStepDetailFragment()).commit();
                     } else {
                         Toast.makeText(getActivity(), "You already are in the First step of the recipe", Toast.LENGTH_SHORT).show();
                     }
@@ -146,21 +152,42 @@ public class RecipeStepDetailFragment extends Fragment {
 
     }
 
-    private void initialize(Uri mediaUri){
-        if(mExoPlayer == null){
-            TrackSelector trackSelector = new DefaultTrackSelector();
-            LoadControl loadControl = new DefaultLoadControl();
-            mExoPlayer = ExoPlayerFactory.newSimpleInstance(getActivity(), trackSelector, loadControl);
+    private void initializePlayer() {
+        if (mExoPlayer == null) {
+            mExoPlayer = ExoPlayerFactory.newSimpleInstance(new DefaultRenderersFactory(getActivity()),
+                    new DefaultTrackSelector(), new DefaultLoadControl());
             mPlayerView.setPlayer(mExoPlayer);
-            // Prepare the MediaSource.
-            String userAgent = Util.getUserAgent(getActivity(), "Baking App");
-            MediaSource mediaSource = new ExtractorMediaSource(mediaUri, new DefaultDataSourceFactory(
-                    getActivity(), userAgent), new DefaultExtractorsFactory(), null, null);
-            mExoPlayer.prepare(mediaSource);
-            mExoPlayer.setPlayWhenReady(true);
+            mExoPlayer.setPlayWhenReady(playWhenReady);
+            mExoPlayer.seekTo(currentWindow, playbackPosition);
+        }
+        MediaSource mediaSource = buildMediaSource(Uri.parse(videoUrl));
+        mExoPlayer.prepare(mediaSource, true, false);
+    }
+
+    private MediaSource buildMediaSource(Uri uri) {
+        return new ExtractorMediaSource.Factory(new DefaultHttpDataSourceFactory("exoplayer-codelab"))
+                .createMediaSource(uri);
+    }
+
+    private void releasePlayer() {
+        if (mExoPlayer != null) {
+            playbackPosition = mExoPlayer.getCurrentPosition();
+            currentWindow = mExoPlayer.getCurrentWindowIndex();
+            playWhenReady = mExoPlayer.getPlayWhenReady();
+            mExoPlayer.release();
+            mExoPlayer = null;
         }
     }
 
+    @SuppressLint("InlinedApi")
+    private void hideSystemUi() {
+        mPlayerView.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LOW_PROFILE
+                | View.SYSTEM_UI_FLAG_FULLSCREEN
+                | View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+                | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY
+                | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+                | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION);
+    }
     @Override
     public void onSaveInstanceState(Bundle currentState) {
         super.onSaveInstanceState(currentState);
@@ -170,39 +197,25 @@ public class RecipeStepDetailFragment extends Fragment {
     }
 
     @Override
-    public void onDetach() {
-        super.onDetach();
-        if (mExoPlayer!=null) {
-            mExoPlayer.stop();
-            mExoPlayer.release();
-        }
-    }
-
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        if (mExoPlayer!=null) {
-            mExoPlayer.stop();
-            mExoPlayer.release();
-            mExoPlayer=null;
-        }
-    }
-
-    @Override
-    public void onStop() {
-        super.onStop();
-        if (mExoPlayer!=null) {
-            mExoPlayer.stop();
-            mExoPlayer.release();
-        }
-    }
-
-    @Override
     public void onPause() {
         super.onPause();
-        if (mExoPlayer!=null) {
-            mExoPlayer.stop();
-            mExoPlayer.release();
+        releasePlayer();
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        if (Util.SDK_INT > 23) {
+            releasePlayer();
+        }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        hideSystemUi();
+        if ((Util.SDK_INT <= 23 || mExoPlayer == null)) {
+            initializePlayer();
         }
     }
 
