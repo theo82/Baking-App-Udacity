@@ -42,7 +42,7 @@ public class MainActivity extends AppCompatActivity {
         setSupportActionBar(myToolbar);
         getSupportActionBar().setHomeButtonEnabled(false);
         getSupportActionBar().setDisplayHomeAsUpEnabled(false);
-        getSupportActionBar().setTitle("Baking Time");
+        getSupportActionBar().setTitle("Baking App");
 
         // Get the IdlingResource instance
         getIdlingResource();

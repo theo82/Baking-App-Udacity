@@ -6,6 +6,8 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.Loader;
+import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -55,17 +57,20 @@ public class MainActivityFragment extends Fragment
 
         mRecyclerView = view.findViewById(R.id.recipe_recycler_view);
 
-        MyDividerItemDecoration myDividerItemDecoration = new MyDividerItemDecoration(getActivity(),RecyclerView.VERTICAL,16);
-
-
-        mRecyclerView.addItemDecoration(myDividerItemDecoration);
-        mRecyclerView.setHasFixedSize(true);
-
         mRecipeAdapter = new RecipeAdapter(getActivity(),mRecipeList,  this);
         mRecyclerView.setAdapter(mRecipeAdapter);
 
+        if (view.getTag()!=null && view.getTag().equals("phone-land")){
+            GridLayoutManager mLayoutManager = new GridLayoutManager(getContext(),4);
+            mRecyclerView.setLayoutManager(mLayoutManager);
+        }
+        else {
+            LinearLayoutManager mLayoutManager = new LinearLayoutManager(getContext());
+            mRecyclerView.setLayoutManager(mLayoutManager);
 
-        return view;
+        }
+
+            return view;
     }
 
     @Override

@@ -83,7 +83,9 @@ public class RecipeStepDetailFragment extends Fragment {
             stepsArrayList = savedInstanceState.getParcelableArrayList(SELECTED_STEPS);
             selectedIndex = savedInstanceState.getInt(SELECTED_INDEX);
             videoUrl = savedInstanceState.getString("videoUrl");
+            playbackPosition = savedInstanceState.getLong("playbackPosition");
             mPlayerView = v.findViewById(R.id.playerView);
+            playWhenReady = savedInstanceState.getBoolean("playWhenReady");
 
         }else {
             stepsArrayList = getArguments().getParcelableArrayList(SELECTED_STEPS);
@@ -219,6 +221,8 @@ public class RecipeStepDetailFragment extends Fragment {
         outState.putParcelableArrayList(SELECTED_STEPS,stepsArrayList);
         outState.putInt(SELECTED_INDEX,selectedIndex);
         outState.putString("videoUrl",videoUrl);
+        outState.putLong("playbackPosition",playbackPosition);
+        outState.putBoolean("playWhenReady",playWhenReady);
 
 
     }
