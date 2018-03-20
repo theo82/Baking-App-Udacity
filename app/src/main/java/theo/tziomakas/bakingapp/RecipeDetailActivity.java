@@ -24,6 +24,7 @@ public class RecipeDetailActivity extends AppCompatActivity implements RecipeDet
     public static String SELECTED_STEPS="Selected_Steps";
     public static String SELECTED_INDEX="Selected_Index";
     public static String STACK_RECIPE_STEP_DETAIL="STACK_RECIPE_STEP_DETAIL";
+
     Toolbar myToolbar;
     private   ArrayList<Recipe> recipe;
     String recipeName;
@@ -61,6 +62,7 @@ public class RecipeDetailActivity extends AppCompatActivity implements RecipeDet
             getSupportActionBar().setTitle(recipeName);
         }
 
+
     }
 
     @Override
@@ -90,4 +92,6 @@ public class RecipeDetailActivity extends AppCompatActivity implements RecipeDet
 
         outState.putString("recipeName",recipeName);
     }
+
+
 }

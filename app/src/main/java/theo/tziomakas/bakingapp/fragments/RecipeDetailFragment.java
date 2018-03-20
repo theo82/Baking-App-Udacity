@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Parcelable;
+import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentManager;
 
 import android.support.annotation.RequiresApi;
@@ -42,6 +43,7 @@ public class RecipeDetailFragment extends Fragment{
 
     List<Ingredients> ingredientsList;
     List<Steps> stepsList;
+    private static final String LAYOUT_STATE = "RecipeDetailActivity.recycler.layout";
 
     TextView textView;
     public RecipeDetailFragment() {
@@ -68,16 +70,11 @@ public class RecipeDetailFragment extends Fragment{
         textView = view.findViewById(R.id.recipe_detail_text);
 
 
-
-        //mIngredientTextView.append("\u2022 " +   "\n");
-        ingredientsList.forEach((a) ->
-        {
-            textView.append("\u2022 "+ a.getIngredient()+"\n");
-            textView.append("\t\t\t Quantity: "+a.getQuantity()+"\n");
-            textView.append("\t\t\t Measure: "+a.getMeasure()+"\n\n");
-
-
-        });
+        for(int i = 0; i< ingredientsList.size(); i ++){
+            textView.append("\u2022" + ingredientsList.get(i).getIngredient() +"\n");
+            textView.append("\t\t\t " + "\u25a3 " + "Quantity: " + ingredientsList.get(i).getQuantity()+"\n");
+            textView.append("\t\t\t " + "\u25a3" + "Measure: "+ ingredientsList.get(i).getMeasure()+"\n");
+        }
 
         mRecyclerView = view.findViewById(R.id.steps_recycler_view);
 
@@ -87,6 +84,20 @@ public class RecipeDetailFragment extends Fragment{
         return view;
     }
 
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
 
+        outState.putParcelable(LAYOUT_STATE, mRecyclerView.getLayoutManager().onSaveInstanceState());
+    }
 
+    @Override
+    public void onViewStateRestored(@Nullable Bundle savedInstanceState) {
+        super.onViewStateRestored(savedInstanceState);
+
+        if(savedInstanceState != null){
+            Parcelable savedRecyclerLayoutState = savedInstanceState.getParcelable(LAYOUT_STATE);
+            mRecyclerView.getLayoutManager().onRestoreInstanceState(savedRecyclerLayoutState);
+        }
+    }
 }
