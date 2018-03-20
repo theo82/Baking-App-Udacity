@@ -44,9 +44,6 @@ import static theo.tziomakas.bakingapp.RecipeDetailActivity.SELECTED_STEPS;
  */
 public class RecipeStepDetailFragment extends Fragment {
 
-    //private ArrayList<Steps> stepsArrayList = new ArrayList<>();
-    Steps steps;
-
     private ArrayList<Steps> stepsArrayList = new ArrayList<>();
     private SimpleExoPlayer mExoPlayer;
     private SimpleExoPlayerView mPlayerView;
@@ -85,6 +82,7 @@ public class RecipeStepDetailFragment extends Fragment {
         if(savedInstanceState != null) {
             stepsArrayList = savedInstanceState.getParcelableArrayList(SELECTED_STEPS);
             selectedIndex = savedInstanceState.getInt(SELECTED_INDEX);
+            videoUrl = savedInstanceState.getString("videoUrl");
         }else {
             stepsArrayList = getArguments().getParcelableArrayList(SELECTED_STEPS);
 
@@ -152,6 +150,39 @@ public class RecipeStepDetailFragment extends Fragment {
 
     }
 
+    @Override
+    public void onStart() {
+        super.onStart();
+        if (Util.SDK_INT > 23) {
+            initializePlayer();
+        }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        hideSystemUi();
+        if ((Util.SDK_INT <= 23 || mExoPlayer == null)) {
+            initializePlayer();
+        }
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        if (Util.SDK_INT <= 23) {
+            releasePlayer();
+        }
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        if (Util.SDK_INT > 23) {
+            releasePlayer();
+        }
+    }
+
     private void initializePlayer() {
         if (mExoPlayer == null) {
             mExoPlayer = ExoPlayerFactory.newSimpleInstance(new DefaultRenderersFactory(getActivity()),
@@ -165,7 +196,7 @@ public class RecipeStepDetailFragment extends Fragment {
     }
 
     private MediaSource buildMediaSource(Uri uri) {
-        return new ExtractorMediaSource.Factory(new DefaultHttpDataSourceFactory("exoplayer-codelab"))
+        return new ExtractorMediaSource.Factory(new DefaultHttpDataSourceFactory("baking app"))
                 .createMediaSource(uri);
     }
 
@@ -179,6 +210,17 @@ public class RecipeStepDetailFragment extends Fragment {
         }
     }
 
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putParcelableArrayList(SELECTED_STEPS,stepsArrayList);
+        outState.putInt(SELECTED_INDEX,selectedIndex);
+        outState.putString("videoUrl",videoUrl);
+
+
+    }
+
     @SuppressLint("InlinedApi")
     private void hideSystemUi() {
         mPlayerView.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LOW_PROFILE
@@ -187,36 +229,6 @@ public class RecipeStepDetailFragment extends Fragment {
                 | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY
                 | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
                 | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION);
-    }
-    @Override
-    public void onSaveInstanceState(Bundle currentState) {
-        super.onSaveInstanceState(currentState);
-        currentState.putParcelableArrayList(SELECTED_STEPS,stepsArrayList);
-        currentState.putInt(SELECTED_INDEX,selectedIndex);
-
-    }
-
-    @Override
-    public void onPause() {
-        super.onPause();
-        releasePlayer();
-    }
-
-    @Override
-    public void onStart() {
-        super.onStart();
-        if (Util.SDK_INT > 23) {
-            releasePlayer();
-        }
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        hideSystemUi();
-        if ((Util.SDK_INT <= 23 || mExoPlayer == null)) {
-            initializePlayer();
-        }
-    }
+}
 
 }
