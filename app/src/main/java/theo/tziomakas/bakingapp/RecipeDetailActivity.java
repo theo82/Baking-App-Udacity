@@ -49,18 +49,19 @@ public class RecipeDetailActivity extends AppCompatActivity implements RecipeDet
             recipeDetailFragment.setArguments(b);
             getSupportFragmentManager()
                     .beginTransaction()
-                    .replace(R.id.container,recipeDetailFragment)
+                    .add(R.id.container,recipeDetailFragment)
                     .commit();
 
 
             if(findViewById(R.id.recipe_detail_layout) != null
                     && findViewById(R.id.recipe_detail_layout).getTag() == "tablet-land"){
 
+                mTwoPane = true;
                 final RecipeStepDetailFragment recipeStepDetailFragmentTablet = new RecipeStepDetailFragment();
                 recipeStepDetailFragmentTablet.setArguments(b);
                 getSupportFragmentManager()
                         .beginTransaction()
-                        .replace(R.id.recipe_text_detail_container,recipeDetailFragment)
+                        .add(R.id.recipe_text_detail_container,recipeDetailFragment)
                         .commit();
 
 
@@ -73,6 +74,8 @@ public class RecipeDetailActivity extends AppCompatActivity implements RecipeDet
             getSupportActionBar().setTitle(recipeName);
 
         }else{
+
+            mTwoPane = false;
             recipeName = savedInstanceState.getString("recipeName");
 
             myToolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -97,9 +100,9 @@ public class RecipeDetailActivity extends AppCompatActivity implements RecipeDet
         fragment.setArguments(stepBundle);
 
 
-        if(findViewById(R.id.recipe_detail_layout) != null
-                && findViewById(R.id.recipe_detail_layout).getTag() == "tablet-land") {
+        if(mTwoPane) {
             ft.replace(R.id.recipe_text_detail_container,fragment);
+            ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
             ft.addToBackStack(STACK_RECIPE_STEP_DETAIL);
             ft.commit();
 
