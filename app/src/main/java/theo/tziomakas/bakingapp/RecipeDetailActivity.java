@@ -47,18 +47,20 @@ public class RecipeDetailActivity extends AppCompatActivity implements RecipeDet
 
             final RecipeDetailFragment recipeDetailFragment = new RecipeDetailFragment();
             recipeDetailFragment.setArguments(b);
-            FragmentManager fragmentManager = getSupportFragmentManager();
-            fragmentManager.beginTransaction()
-                    .replace(R.id.container, recipeDetailFragment).addToBackStack(STACK_RECIPE_DETAIL)
+            getSupportFragmentManager()
+                    .beginTransaction()
+                    .replace(R.id.container,recipeDetailFragment)
                     .commit();
+
 
             if(findViewById(R.id.recipe_detail_layout) != null
                     && findViewById(R.id.recipe_detail_layout).getTag() == "tablet-land"){
 
-                final RecipeStepDetailFragment recipeStepDetailFragment = new RecipeStepDetailFragment();
-                recipeStepDetailFragment.setArguments(b);
-                fragmentManager.beginTransaction()
-                        .replace(R.id.recipe_text_detail_container, recipeStepDetailFragment).addToBackStack(STACK_RECIPE_STEP_DETAIL)
+                final RecipeStepDetailFragment recipeStepDetailFragmentTablet = new RecipeStepDetailFragment();
+                recipeStepDetailFragmentTablet.setArguments(b);
+                getSupportFragmentManager()
+                        .beginTransaction()
+                        .replace(R.id.recipe_text_detail_container,recipeDetailFragment)
                         .commit();
 
 
@@ -97,7 +99,6 @@ public class RecipeDetailActivity extends AppCompatActivity implements RecipeDet
 
         if(findViewById(R.id.recipe_detail_layout) != null
                 && findViewById(R.id.recipe_detail_layout).getTag() == "tablet-land") {
-
             ft.replace(R.id.recipe_text_detail_container,fragment);
             ft.addToBackStack(STACK_RECIPE_STEP_DETAIL);
             ft.commit();
