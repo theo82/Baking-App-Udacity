@@ -1,6 +1,8 @@
 package theo.tziomakas.bakingapp.fragments;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
+import android.content.res.Configuration;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -23,6 +25,7 @@ import com.google.android.exoplayer2.source.ExtractorMediaSource;
 import com.google.android.exoplayer2.source.MediaSource;
 import com.google.android.exoplayer2.trackselection.DefaultTrackSelector;
 import com.google.android.exoplayer2.trackselection.TrackSelector;
+import com.google.android.exoplayer2.ui.AspectRatioFrameLayout;
 import com.google.android.exoplayer2.ui.SimpleExoPlayerView;
 import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory;
 import com.google.android.exoplayer2.upstream.DefaultHttpDataSourceFactory;
@@ -111,6 +114,14 @@ public class RecipeStepDetailFragment extends Fragment {
 
             if (!videoUrl.isEmpty()) {
                 initializePlayer();
+
+                if (v.findViewWithTag("sw600dp-land-recipe_step_detail")!=null) {
+                    getActivity().findViewById(R.id.recipe_step_text_view).setLayoutParams(new LinearLayout.LayoutParams(-1,-2));
+                    mPlayerView.setResizeMode(AspectRatioFrameLayout.RESIZE_MODE_FIXED_WIDTH);
+                }
+                else if (isInLandscapeMode(getContext())){
+                    recipeDescriptionTextView.setVisibility(View.GONE);
+                }
             } else {
                 mExoPlayer = null;
                 mPlayerView.setForeground(ContextCompat.getDrawable(getContext(), R.drawable.ic_visibility_off_white_36dp));
@@ -248,6 +259,9 @@ public class RecipeStepDetailFragment extends Fragment {
                 | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY
                 | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
                 | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION);
+    }
+    public boolean isInLandscapeMode( Context context ) {
+        return (context.getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE);
     }
 
 }

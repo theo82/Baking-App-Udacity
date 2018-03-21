@@ -46,7 +46,7 @@ public class RecipeDetailActivity extends AppCompatActivity implements RecipeDet
             recipeName = recipe.get(0).getRecipeName();
 
             final RecipeDetailFragment recipeDetailFragment = new RecipeDetailFragment();
-            recipeDetailFragment.setArguments(b);
+            //recipeDetailFragment.setArguments(b);
             getSupportFragmentManager()
                     .beginTransaction()
                     .add(R.id.container,recipeDetailFragment)
@@ -57,7 +57,7 @@ public class RecipeDetailActivity extends AppCompatActivity implements RecipeDet
 
                 //mTwoPane = true;
                 final RecipeStepDetailFragment recipeStepDetailFragmentTablet = new RecipeStepDetailFragment();
-                recipeStepDetailFragmentTablet.setArguments(b);
+                //recipeStepDetailFragmentTablet.setArguments(b);
                 getSupportFragmentManager()
                         .beginTransaction()
                         .add(R.id.recipe_step_detail_container,recipeStepDetailFragmentTablet)
@@ -96,16 +96,17 @@ public class RecipeDetailActivity extends AppCompatActivity implements RecipeDet
         Bundle stepBundle = new Bundle();
         stepBundle.putParcelableArrayList(SELECTED_STEPS,(ArrayList<Steps>) stepsOut);
         stepBundle.putInt(SELECTED_INDEX,clickedItemIndex);
-        fragment.setArguments(stepBundle);
 
 
         if(findViewById(R.id.recipe_detail_layout) != null){
+            fragment.setArguments(stepBundle);
             ft.replace(R.id.recipe_step_detail_container,fragment);
             ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
             ft.addToBackStack(STACK_RECIPE_STEP_DETAIL);
             ft.commit();
 
         }else {
+            fragment.setArguments(stepBundle);
             ft.replace(R.id.container, fragment);
             ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
             ft.addToBackStack(STACK_RECIPE_STEP_DETAIL);
