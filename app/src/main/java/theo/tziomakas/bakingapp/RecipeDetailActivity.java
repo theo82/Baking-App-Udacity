@@ -44,16 +44,20 @@ public class RecipeDetailActivity extends AppCompatActivity implements RecipeDet
             recipe = b.getParcelableArrayList("recipe");
             recipeName = recipe.get(0).getRecipeName();
 
-            if(findViewById(R.id.recipe_detail_layout) != null){
-                mTwoPane = true;
+            getSupportFragmentManager().beginTransaction()
+                    .add(R.id.container,new RecipeDetailFragment()).commit();
+
+            if(findViewById(R.id.recipe_detail_layout) != null
+                    && findViewById(R.id.recipe_detail_layout).getTag() == "tablet-land"){
+
+                getSupportFragmentManager().beginTransaction()
+                        .add(R.id.recipe_text_detail_container,new RecipeDetailFragment()).commit();
 
 
-            }else{
-                mTwoPane = false;
             }
 
-            getSupportFragmentManager().beginTransaction()
-                 .add(R.id.container,new RecipeDetailFragment()).commit();
+
+
 
             myToolbar = (Toolbar) findViewById(R.id.toolbar);
             setSupportActionBar(myToolbar);
