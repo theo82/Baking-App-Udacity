@@ -29,6 +29,8 @@ public class RecipeDetailActivity extends AppCompatActivity implements RecipeDet
     private   ArrayList<Recipe> recipe;
     String recipeName;
 
+    private boolean mTwoPane;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -36,15 +38,22 @@ public class RecipeDetailActivity extends AppCompatActivity implements RecipeDet
 
         if(savedInstanceState == null){
 
-
-            getSupportFragmentManager().beginTransaction()
-                 .add(R.id.container,new RecipeDetailFragment()).commit();
-
             Bundle b = getIntent().getExtras();
 
             recipe = new ArrayList<>();
             recipe = b.getParcelableArrayList("recipe");
             recipeName = recipe.get(0).getRecipeName();
+
+            if(findViewById(R.id.recipe_detail_layout) != null){
+                mTwoPane = true;
+
+
+            }else{
+                mTwoPane = false;
+            }
+
+            getSupportFragmentManager().beginTransaction()
+                 .add(R.id.container,new RecipeDetailFragment()).commit();
 
             myToolbar = (Toolbar) findViewById(R.id.toolbar);
             setSupportActionBar(myToolbar);
