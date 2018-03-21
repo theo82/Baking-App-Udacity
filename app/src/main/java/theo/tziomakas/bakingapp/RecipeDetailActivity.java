@@ -30,7 +30,7 @@ public class RecipeDetailActivity extends AppCompatActivity implements RecipeDet
     private   ArrayList<Recipe> recipe;
     String recipeName;
 
-    private boolean mTwoPane;
+    //private boolean mTwoPane;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,19 +46,18 @@ public class RecipeDetailActivity extends AppCompatActivity implements RecipeDet
             recipeName = recipe.get(0).getRecipeName();
 
             final RecipeDetailFragment recipeDetailFragment = new RecipeDetailFragment();
-            //recipeDetailFragment.setArguments(b);
+            recipeDetailFragment.setArguments(b);
             getSupportFragmentManager()
                     .beginTransaction()
                     .add(R.id.container,recipeDetailFragment)
                     .commit();
 
 
-            if(findViewById(R.id.recipe_detail_layout) != null
-                    && findViewById(R.id.recipe_detail_layout).getTag() == "tablet-land"){
+            if(findViewById(R.id.recipe_detail_layout) != null){
 
-                mTwoPane = true;
+                //mTwoPane = true;
                 final RecipeStepDetailFragment recipeStepDetailFragmentTablet = new RecipeStepDetailFragment();
-                //recipeStepDetailFragmentTablet.setArguments(b);
+                recipeStepDetailFragmentTablet.setArguments(b);
                 getSupportFragmentManager()
                         .beginTransaction()
                         .add(R.id.recipe_step_detail_container,recipeStepDetailFragmentTablet)
@@ -75,7 +74,7 @@ public class RecipeDetailActivity extends AppCompatActivity implements RecipeDet
 
         }else{
 
-            mTwoPane = false;
+            //mTwoPane = false;
             recipeName = savedInstanceState.getString("recipeName");
 
             myToolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -100,7 +99,7 @@ public class RecipeDetailActivity extends AppCompatActivity implements RecipeDet
         fragment.setArguments(stepBundle);
 
 
-        if(mTwoPane) {
+        if(findViewById(R.id.recipe_detail_layout) != null){
             ft.replace(R.id.recipe_step_detail_container,fragment);
             ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
             ft.addToBackStack(STACK_RECIPE_STEP_DETAIL);
