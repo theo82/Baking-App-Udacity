@@ -53,6 +53,7 @@ public class RecipeStepDetailFragment extends Fragment {
     private TextView recipeDescriptionTextView;
     private String recipeDesciption;
     private int selectedIndex;
+    private int stepPosition;
 
     private long playbackPosition;
     private int currentWindow;
@@ -126,6 +127,8 @@ public class RecipeStepDetailFragment extends Fragment {
                 mExoPlayer = null;
                 mPlayerView.setForeground(ContextCompat.getDrawable(getContext(), R.drawable.ic_visibility_off_white_36dp));
                 mPlayerView.setLayoutParams(new LinearLayout.LayoutParams(300, 300));
+
+
             }
 
         }
@@ -138,14 +141,14 @@ public class RecipeStepDetailFragment extends Fragment {
         mPrevStep.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (stepsArrayList.get(selectedIndex).getStepId() > 0) {
+                if (selectedIndex > 0) {
                     if (mExoPlayer != null) {
                         mExoPlayer.stop();
                     }
-                    itemClickListener.onListItemClick(stepsArrayList, stepsArrayList.get(selectedIndex).getStepId() - 1);
+                    itemClickListener.onListItemClick(stepsArrayList, selectedIndex - 1);
 
                 } else {
-                    Toast.makeText(getActivity(), "You already are in the First step of the recipe", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getActivity(), "You already are in the first step of the recipe", Toast.LENGTH_SHORT).show();
                 }
 
             }
@@ -154,12 +157,11 @@ public class RecipeStepDetailFragment extends Fragment {
         mNextstep.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
 
-                int lastIndex = stepsArrayList.size()-1;
-                if (stepsArrayList.get(selectedIndex).getStepId() < stepsArrayList.get(lastIndex).getStepId()) {
+                if (selectedIndex < stepsArrayList.size()) {
                     if (mExoPlayer!=null){
                         mExoPlayer.stop();
                     }
-                    itemClickListener.onListItemClick(stepsArrayList,stepsArrayList.get(selectedIndex).getStepId() + 1);
+                    itemClickListener.onListItemClick(stepsArrayList,selectedIndex + 1);
                 }
                 else {
                     Toast.makeText(getContext(),"You already are in the Last step of the recipe", Toast.LENGTH_SHORT).show();
