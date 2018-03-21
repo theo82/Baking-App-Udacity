@@ -46,7 +46,7 @@ public class RecipeDetailActivity extends AppCompatActivity implements RecipeDet
             recipeName = recipe.get(0).getRecipeName();
 
             final RecipeDetailFragment recipeDetailFragment = new RecipeDetailFragment();
-            recipeDetailFragment.setArguments(b);
+            //recipeDetailFragment.setArguments(b);
             getSupportFragmentManager()
                     .beginTransaction()
                     .add(R.id.container,recipeDetailFragment)
@@ -58,10 +58,10 @@ public class RecipeDetailActivity extends AppCompatActivity implements RecipeDet
 
                 mTwoPane = true;
                 final RecipeStepDetailFragment recipeStepDetailFragmentTablet = new RecipeStepDetailFragment();
-                recipeStepDetailFragmentTablet.setArguments(b);
+                //recipeStepDetailFragmentTablet.setArguments(b);
                 getSupportFragmentManager()
                         .beginTransaction()
-                        .add(R.id.recipe_text_detail_container,recipeDetailFragment)
+                        .add(R.id.recipe_step_detail_container,recipeStepDetailFragmentTablet)
                         .commit();
 
 
@@ -101,7 +101,7 @@ public class RecipeDetailActivity extends AppCompatActivity implements RecipeDet
 
 
         if(mTwoPane) {
-            ft.replace(R.id.recipe_text_detail_container,fragment);
+            ft.replace(R.id.recipe_step_detail_container,fragment);
             ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
             ft.addToBackStack(STACK_RECIPE_STEP_DETAIL);
             ft.commit();
