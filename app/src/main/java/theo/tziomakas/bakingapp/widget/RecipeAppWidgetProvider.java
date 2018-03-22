@@ -3,9 +3,12 @@ package theo.tziomakas.bakingapp.widget;
 import android.app.PendingIntent;
 import android.appwidget.AppWidgetManager;
 import android.appwidget.AppWidgetProvider;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.widget.RemoteViews;
+
+import java.security.Provider;
 
 import theo.tziomakas.bakingapp.MainActivity;
 import theo.tziomakas.bakingapp.R;
@@ -55,5 +58,7 @@ public class RecipeAppWidgetProvider extends AppWidgetProvider {
     public void onDisabled(Context context) {
         // Enter relevant functionality for when the last widget is disabled
     }
+
+
 }
 

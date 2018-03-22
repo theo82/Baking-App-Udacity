@@ -75,7 +75,9 @@ class IngredientsListRemoteViewFactory implements RemoteViewsService.RemoteViews
     public RemoteViews getViewAt(int position) {
         RemoteViews views = new RemoteViews(mContext.getPackageName(), R.layout.widget_grid_view_item);
 
-        views.setTextViewText(R.id.widget_grid_view_item, ingredientsArrayList.get(position).getIngredient());
+        views.setTextViewText(R.id.widget_grid_view_item, "\u2022 " + ingredientsArrayList.get(position).getIngredient()
+                + "\n" + ingredientsArrayList.get(position).getQuantity()
+                + "\n" + ingredientsArrayList.get(position).getMeasure());
 
         Intent fillInIntent = new Intent();
         views.setOnClickFillInIntent(R.id.widget_grid_view_item, fillInIntent);
