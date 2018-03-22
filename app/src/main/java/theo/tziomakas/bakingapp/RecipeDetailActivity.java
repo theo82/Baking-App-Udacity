@@ -15,6 +15,8 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 
+import com.google.gson.Gson;
+
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -44,7 +46,7 @@ public class RecipeDetailActivity extends AppCompatActivity implements RecipeDet
     private List<Steps> stepsArrayList;
     private List<Ingredients> ingredientsList;
     String recipeName;
-    Ingredients ingredients;
+    String ingredients;
 
     //private boolean mTwoPane;
 
@@ -64,7 +66,13 @@ public class RecipeDetailActivity extends AppCompatActivity implements RecipeDet
             ingredientsList = recipe.get(0).getIngredients();
 
 
-            addIngredients(ingredients);
+            ingredients = new Gson().toJson(ingredientsList);
+
+            PreferenceManager.getDefaultSharedPreferences(this)
+                    .edit().putString("ingredients",ingredients)
+                    .apply();
+
+            //addIngredients(ingredients);
 
 
             final RecipeDetailFragment recipeDetailFragment = new RecipeDetailFragment();
