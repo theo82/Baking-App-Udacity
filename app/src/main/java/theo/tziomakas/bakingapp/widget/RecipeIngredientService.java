@@ -34,7 +34,7 @@ class IngredientsListRemoteViewFactory implements RemoteViewsService.RemoteViews
 
     private static final String TAG = "IngredientsListRemoteViewFactory";
 
-    ArrayList<String> ingredientsArrayList = new ArrayList<>();
+    ArrayList<Ingredients> ingredientsArrayList = new ArrayList<>();
     Context mContext;
 
     public IngredientsListRemoteViewFactory(Context applicationContext){
@@ -75,10 +75,9 @@ class IngredientsListRemoteViewFactory implements RemoteViewsService.RemoteViews
     public RemoteViews getViewAt(int position) {
         RemoteViews views = new RemoteViews(mContext.getPackageName(), R.layout.widget_grid_view_item);
 
-        views.setTextViewText(R.id.widget_grid_view_item, ingredientsArrayList.get(position));
+        views.setTextViewText(R.id.widget_grid_view_item, ingredientsArrayList.get(position).getIngredient());
 
         Intent fillInIntent = new Intent();
-        //fillInIntent.putExtras(extras);
         views.setOnClickFillInIntent(R.id.widget_grid_view_item, fillInIntent);
 
         return views;
