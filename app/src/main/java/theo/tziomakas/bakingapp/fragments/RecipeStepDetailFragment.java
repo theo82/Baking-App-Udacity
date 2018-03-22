@@ -117,7 +117,7 @@ public class RecipeStepDetailFragment extends Fragment {
                 initializePlayer();
 
                 if (v.findViewWithTag("sw600dp-land-recipe_step_detail")!=null) {
-                    getActivity().findViewById(R.id.recipe_step_text_view).setLayoutParams(new LinearLayout.LayoutParams(-1,-2));
+                    getActivity().findViewById(R.id.recipe_step_detail_container).setLayoutParams(new LinearLayout.LayoutParams(-1,-2));
                     mPlayerView.setResizeMode(AspectRatioFrameLayout.RESIZE_MODE_FIXED_WIDTH);
                 }
                 else if (isInLandscapeMode(getContext())){

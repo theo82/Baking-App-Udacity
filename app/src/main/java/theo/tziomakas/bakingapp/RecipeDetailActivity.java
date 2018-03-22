@@ -2,12 +2,14 @@ package theo.tziomakas.bakingapp;
 
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
+import android.os.Parcelable;
 import android.os.PersistableBundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 
 import java.util.ArrayList;
@@ -27,7 +29,8 @@ public class RecipeDetailActivity extends AppCompatActivity implements RecipeDet
     public static String STACK_RECIPE_STEP_DETAIL="STACK_RECIPE_STEP_DETAIL";
 
     Toolbar myToolbar;
-    private   ArrayList<Recipe> recipe;
+    private ArrayList<Recipe> recipe;
+    private List<Steps> stepsArrayList;
     String recipeName;
 
     //private boolean mTwoPane;
@@ -44,6 +47,7 @@ public class RecipeDetailActivity extends AppCompatActivity implements RecipeDet
             recipe = new ArrayList<>();
             recipe = b.getParcelableArrayList("recipe");
             recipeName = recipe.get(0).getRecipeName();
+            stepsArrayList = recipe.get(0).getSteps();
 
             final RecipeDetailFragment recipeDetailFragment = new RecipeDetailFragment();
             recipeDetailFragment.setArguments(b);
@@ -54,10 +58,16 @@ public class RecipeDetailActivity extends AppCompatActivity implements RecipeDet
 
 
             if(findViewById(R.id.recipe_detail_layout) != null){
-
                 //mTwoPane = true;
+
                 final RecipeStepDetailFragment recipeStepDetailFragmentTablet = new RecipeStepDetailFragment();
-                recipeStepDetailFragmentTablet.setArguments(b);
+
+                Bundle stepBundle = new Bundle();
+                stepBundle.putParcelableArrayList(SELECTED_STEPS, (ArrayList<? extends Parcelable>) stepsArrayList);
+                //stepBundle.putInt(SELECTED_INDEX,clickedItemIndex);
+                recipeStepDetailFragmentTablet.setArguments(stepBundle);
+
+                recipeStepDetailFragmentTablet.setArguments(stepBundle);
                 getSupportFragmentManager()
                         .beginTransaction()
                         .add(R.id.recipe_step_detail_container,recipeStepDetailFragmentTablet)
@@ -97,7 +107,6 @@ public class RecipeDetailActivity extends AppCompatActivity implements RecipeDet
         stepBundle.putParcelableArrayList(SELECTED_STEPS,(ArrayList<Steps>) steps);
         stepBundle.putInt(SELECTED_INDEX,clickedItemIndex);
         fragment.setArguments(stepBundle);
-
 
         if(findViewById(R.id.recipe_detail_layout) != null){
             ft.replace(R.id.recipe_step_detail_container,fragment);

@@ -17,7 +17,7 @@
         android:orientation="horizontal"
         android:id="@+id/recipe_detail_layout"
 
-        android:weightSum="1">
+        >
 
         <FrameLayout
             android:id="@+id/container"
