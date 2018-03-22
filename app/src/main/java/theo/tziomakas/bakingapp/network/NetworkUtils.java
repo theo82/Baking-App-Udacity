@@ -236,9 +236,20 @@ public class NetworkUtils {
             e.printStackTrace();
         }
 
-        List<Recipe> movies = getRecipeFromJson(jsonResponse);
+        List<Recipe> recipes = getRecipeFromJson(jsonResponse);
 
-        return movies;
+        return recipes;
+    }
+
+    /**
+     * Query the dataset and return a list of {@link Recipe} objects.
+     */
+    public static List<Ingredients> fetchIngredientData(List<Recipe> recipeList){
+
+
+        List<Ingredients> ingredients = recipeList.get(0).getIngredients();
+
+        return ingredients;
     }
 
 
