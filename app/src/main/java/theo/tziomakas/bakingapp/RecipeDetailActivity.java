@@ -1,9 +1,12 @@
 package theo.tziomakas.bakingapp;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
 import android.os.Parcelable;
 import android.os.PersistableBundle;
+import android.preference.PreferenceManager;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
@@ -12,14 +15,22 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 
+import java.io.IOException;
+import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import theo.tziomakas.bakingapp.adapters.RecipeDetailAdapter;
 import theo.tziomakas.bakingapp.fragments.RecipeDetailFragment;
 import theo.tziomakas.bakingapp.fragments.RecipeStepDetailFragment;
+import theo.tziomakas.bakingapp.model.Ingredients;
 import theo.tziomakas.bakingapp.model.Recipe;
 import theo.tziomakas.bakingapp.model.Steps;
+import theo.tziomakas.bakingapp.serializer.ObjectSerializer;
+
+import static android.content.SharedPreferences.*;
 
 public class RecipeDetailActivity extends AppCompatActivity implements RecipeDetailAdapter.ListItemClickListener,RecipeStepDetailFragment.ListItemClickListener{
 
@@ -31,7 +42,9 @@ public class RecipeDetailActivity extends AppCompatActivity implements RecipeDet
     Toolbar myToolbar;
     private ArrayList<Recipe> recipe;
     private List<Steps> stepsArrayList;
+    private List<Ingredients> ingredientsList;
     String recipeName;
+    Ingredients ingredients;
 
     //private boolean mTwoPane;
 
@@ -48,6 +61,11 @@ public class RecipeDetailActivity extends AppCompatActivity implements RecipeDet
             recipe = b.getParcelableArrayList("recipe");
             recipeName = recipe.get(0).getRecipeName();
             stepsArrayList = recipe.get(0).getSteps();
+            ingredientsList = recipe.get(0).getIngredients();
+
+
+            addIngredients(ingredients);
+
 
             final RecipeDetailFragment recipeDetailFragment = new RecipeDetailFragment();
             recipeDetailFragment.setArguments(b);
@@ -96,6 +114,22 @@ public class RecipeDetailActivity extends AppCompatActivity implements RecipeDet
 
     }
 
+
+    public void addIngredients(Ingredients ingredients){
+        if(null == ingredientsList){
+            ingredientsList = new ArrayList<>();
+        }
+        ingredientsList.add(ingredients);
+
+        SharedPreferences prefs = getSharedPreferences("ingredients_prefs", Context.MODE_PRIVATE);
+        Editor editor= prefs.edit();
+
+        try{
+            editor.putString("ingredients", ObjectSerializer.serialize((Serializable) ingredientsList));
+        }catch (IOException e){
+
+        }
+    }
     @Override
     public void onListItemClick(List<Steps> steps, int clickedItemIndex) {
 
