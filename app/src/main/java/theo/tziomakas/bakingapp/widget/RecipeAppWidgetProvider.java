@@ -9,6 +9,7 @@ import android.widget.RemoteViews;
 
 import theo.tziomakas.bakingapp.MainActivity;
 import theo.tziomakas.bakingapp.R;
+import theo.tziomakas.bakingapp.RecipeDetailActivity;
 import theo.tziomakas.bakingapp.fragments.MainActivityFragment;
 
 /**
@@ -19,12 +20,20 @@ public class RecipeAppWidgetProvider extends AppWidgetProvider {
     static void updateAppWidget(Context context, AppWidgetManager appWidgetManager,
                                 int appWidgetId) {
 
-        // Construct the RemoteViews object
-        RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.recipe_app_widget);
+        RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.widget_grid_view);
 
-        Intent i = new Intent(context, MainActivity.class);
-        PendingIntent pendingIntent = PendingIntent.getActivity(context,0,i,0);
-        views.setOnClickPendingIntent(R.id.widget_recipe_image,pendingIntent);
+        // Construct the RemoteViews object
+        Intent appIntent = new Intent(context, RecipeDetailActivity.class);
+        appIntent.addCategory(Intent.ACTION_MAIN);
+        appIntent.addCategory(Intent.CATEGORY_LAUNCHER);
+        appIntent.addFlags(Intent.FLAG_ACTIVITY_BROUGHT_TO_FRONT|Intent.FLAG_ACTIVITY_SINGLE_TOP);
+        PendingIntent appPendingIntent = PendingIntent.getActivity(context, 0, appIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+        views.setPendingIntentTemplate(R.id.widget_grid_view, appPendingIntent);
+
+        // Set the GridWidgetService intent to act as the adapter for the GridView
+        Intent intent = new Intent(context, RecipeIngredientService.class);
+        views.setRemoteAdapter(R.id.widget_grid_view, intent);
+
         // Instruct the widget manager to update the widget
         appWidgetManager.updateAppWidget(appWidgetId, views);
     }
