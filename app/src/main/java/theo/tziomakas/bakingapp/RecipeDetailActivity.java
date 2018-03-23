@@ -55,6 +55,7 @@ public class RecipeDetailActivity extends AppCompatActivity implements RecipeDet
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_recipe_detail);
 
+
         if(savedInstanceState == null){
 
             Bundle b = getIntent().getExtras();
@@ -123,21 +124,7 @@ public class RecipeDetailActivity extends AppCompatActivity implements RecipeDet
     }
 
 
-    public void addIngredients(Ingredients ingredients){
-        if(null == ingredientsList){
-            ingredientsList = new ArrayList<>();
-        }
-        ingredientsList.add(ingredients);
 
-        SharedPreferences prefs = getSharedPreferences("ingredients_prefs", Context.MODE_PRIVATE);
-        Editor editor= prefs.edit();
-
-        try{
-            editor.putString("ingredients", ObjectSerializer.serialize((Serializable) ingredientsList));
-        }catch (IOException e){
-
-        }
-    }
     @Override
     public void onListItemClick(List<Steps> steps, int clickedItemIndex) {
 

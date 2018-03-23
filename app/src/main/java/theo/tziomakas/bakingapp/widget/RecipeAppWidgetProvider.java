@@ -6,15 +6,27 @@ import android.appwidget.AppWidgetProvider;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.widget.RemoteViews;
+
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+
+import java.lang.reflect.Type;
+import java.util.ArrayList;
 
 import theo.tziomakas.bakingapp.R;
 import theo.tziomakas.bakingapp.RecipeDetailActivity;
+import theo.tziomakas.bakingapp.model.Ingredients;
 
 /**
  * Implementation of App Widget functionality.
  */
 public class RecipeAppWidgetProvider extends AppWidgetProvider {
+
+    static ArrayList<Ingredients> ingredientsList = new ArrayList<>();
+
 
     static void updateAppWidget(Context context, AppWidgetManager appWidgetManager,
                                 int appWidgetId) {
@@ -61,6 +73,25 @@ public class RecipeAppWidgetProvider extends AppWidgetProvider {
         // Enter relevant functionality for when the last widget is disabled
     }
 
+    @Override
+    public void onReceive(Context context, Intent intent) {
+        AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(context);
+        int[] appWidgetIds = appWidgetManager.getAppWidgetIds(new ComponentName(context, RecipeAppWidgetProvider.class));
 
+        final String action = intent.getAction();
+
+        if (action.equals("android.appwidget.action.APPWIDGET_UPDATE2")) {
+            SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
+            Gson gson = new Gson();
+
+            String json = prefs.getString("ingredients", "");
+            Type type = new TypeToken<ArrayList<Ingredients>>(){}.getType();
+            ingredientsList = gson.fromJson(json, type);
+            appWidgetManager.notifyAppWidgetViewDataChanged(appWidgetIds, R.id.widget_grid_view);
+            //Now update all widgets
+            RecipeAppWidgetProvider.updateRecipeWidgets(context,appWidgetManager,appWidgetIds);
+            super.onReceive(context,intent);
+        }
+    }
 }
 

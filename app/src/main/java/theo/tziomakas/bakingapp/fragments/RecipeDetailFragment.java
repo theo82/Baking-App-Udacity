@@ -29,6 +29,7 @@ import theo.tziomakas.bakingapp.adapters.RecipeDetailAdapter;
 import theo.tziomakas.bakingapp.model.Ingredients;
 import theo.tziomakas.bakingapp.model.Recipe;
 import theo.tziomakas.bakingapp.model.Steps;
+import theo.tziomakas.bakingapp.widget.UpdateRecipeWidgetService;
 
 
 /**
@@ -44,6 +45,7 @@ public class RecipeDetailFragment extends Fragment{
     List<Ingredients> ingredientsList;
     List<Steps> stepsList;
     private static final String LAYOUT_STATE = "RecipeDetailActivity.recycler.layout";
+    ArrayList<Ingredients> recipeIngredientsForWidgets= new ArrayList<>();
 
     TextView textView;
     public RecipeDetailFragment() {
@@ -70,16 +72,23 @@ public class RecipeDetailFragment extends Fragment{
         textView = view.findViewById(R.id.recipe_detail_text);
 
 
+
+
         for(int i = 0; i< ingredientsList.size(); i ++){
             textView.append("\u2022" + ingredientsList.get(i).getIngredient() +"\n");
             textView.append("\t\t\t " + "\u25a3 " + "Quantity: " + ingredientsList.get(i).getQuantity()+"\n");
             textView.append("\t\t\t " + "\u25a3" + "Measure: "+ ingredientsList.get(i).getMeasure()+"\n");
+
+
         }
 
         mRecyclerView = view.findViewById(R.id.steps_recycler_view);
 
         stepsAdapter = new RecipeDetailAdapter((RecipeDetailActivity)getActivity(),stepsList);
         mRecyclerView.setAdapter(stepsAdapter);
+
+        //update widget
+        UpdateRecipeWidgetService.startBakingService(getContext(), (ArrayList<Ingredients>) ingredientsList);
 
         return view;
     }
