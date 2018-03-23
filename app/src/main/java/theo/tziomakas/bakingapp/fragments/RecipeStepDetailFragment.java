@@ -73,7 +73,6 @@ public class RecipeStepDetailFragment extends Fragment {
         void onListItemClick(List<Steps> steps,int clickedItemIndex);
     }
 
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -110,8 +109,8 @@ public class RecipeStepDetailFragment extends Fragment {
             videoUrl = stepsArrayList.get(selectedIndex).getVideoUrl();
 
             recipeDesciption = stepsArrayList.get(selectedIndex).getDescription();
-
             mPlayerView = v.findViewById(R.id.playerView);
+            //mPlayerView.setResizeMode(AspectRatioFrameLayout.RESIZE_MODE_FIT);
 
             if (!videoUrl.isEmpty()) {
                 initializePlayer();
@@ -119,8 +118,7 @@ public class RecipeStepDetailFragment extends Fragment {
                 if (v.findViewWithTag("sw600dp-land-recipe_step_detail")!=null) {
                     getActivity().findViewById(R.id.recipe_step_detail_container).setLayoutParams(new LinearLayout.LayoutParams(-1,-2));
                     mPlayerView.setResizeMode(AspectRatioFrameLayout.RESIZE_MODE_FIXED_WIDTH);
-                }
-                else if (isInLandscapeMode(getContext())){
+                }else if (isInLandscapeMode(getContext())){
                     recipeDescriptionTextView.setVisibility(View.GONE);
                 }
             } else {

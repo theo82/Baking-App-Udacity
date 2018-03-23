@@ -16,6 +16,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import theo.tziomakas.bakingapp.model.Ingredients;
+import theo.tziomakas.bakingapp.model.Recipe;
 
 /**
  * Created by theodosiostziomakas on 23/03/2018.
@@ -29,7 +30,7 @@ public class UpdateRecipeWidgetService extends IntentService {
         super("UpdateRecipeWidget");
     }
 
-    public static void startBakingService(Context context, ArrayList<Ingredients> ingredients) {
+    public static void startBakingService(Context context, ArrayList<Recipe> ingredients) {
         Intent intent = new Intent(context, UpdateRecipeWidgetService.class);
         intent.putExtra("ingredients_list",ingredients);
         context.startService(intent);
@@ -41,7 +42,7 @@ public class UpdateRecipeWidgetService extends IntentService {
             Gson gson = new Gson();
 
             String json = prefs.getString("ingredients", "");
-            Type type = new TypeToken<ArrayList<Ingredients>>(){}.getType();
+            Type type = new TypeToken<ArrayList<Recipe>>(){}.getType();
             ingredientsArrayList = gson.fromJson(json, type);
             handleActionUpdateRecipeWidget(ingredientsArrayList);
 

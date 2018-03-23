@@ -4,6 +4,7 @@ import android.app.IntentService;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.widget.RemoteViews;
 import android.widget.RemoteViewsService;
@@ -16,6 +17,8 @@ import java.util.ArrayList;
 
 import theo.tziomakas.bakingapp.R;
 import theo.tziomakas.bakingapp.model.Ingredients;
+import theo.tziomakas.bakingapp.model.Recipe;
+
 
 /**
  * Created by theodosiostziomakas on 22/03/2018.
@@ -32,6 +35,7 @@ public class GridWidgetService extends RemoteViewsService{
 
 class IngredientsListRemoteViewFactory implements RemoteViewsService.RemoteViewsFactory{
 
+    public static ArrayList<Recipe>  selectedRecipe = new ArrayList<>();
     private static final String TAG = "IngredientsListRemoteViewFactory";
 
     ArrayList<Ingredients> ingredientsArrayList = new ArrayList<>();
@@ -76,8 +80,12 @@ class IngredientsListRemoteViewFactory implements RemoteViewsService.RemoteViews
         RemoteViews views = new RemoteViews(mContext.getPackageName(), R.layout.widget_grid_view_item);
 
         views.setTextViewText(R.id.widget_grid_view_item, "\u2022 " + ingredientsArrayList.get(position).getIngredient()
-                + "\n" + ingredientsArrayList.get(position).getQuantity()
-                + "\n" + ingredientsArrayList.get(position).getMeasure());
+                + "\n" +  "Quantity: " + String.valueOf(ingredientsArrayList.get(position).getQuantity())
+                + "\n" +  "Measure: " + ingredientsArrayList.get(position).getMeasure());
+
+
+        Bundle selectedRecipeBundle = new Bundle();
+        selectedRecipeBundle.putParcelableArrayList("recipe",selectedRecipe);
 
         Intent fillInIntent = new Intent();
         views.setOnClickFillInIntent(R.id.widget_grid_view_item, fillInIntent);

@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Parcelable;
+import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentManager;
 
@@ -19,6 +20,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.google.gson.Gson;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -39,6 +42,8 @@ public class RecipeDetailFragment extends Fragment{
 
     ArrayList<Recipe> recipeArrayList;
     RecyclerView mRecyclerView;
+
+    String ingredients;
 
     RecipeDetailAdapter stepsAdapter;
 
@@ -63,6 +68,7 @@ public class RecipeDetailFragment extends Fragment{
 
         Intent intent = getActivity().getIntent();
 
+
         recipeArrayList = intent.getParcelableArrayListExtra("recipe");
 
         ingredientsList = recipeArrayList.get(0).getIngredients();
@@ -74,6 +80,10 @@ public class RecipeDetailFragment extends Fragment{
 
 
 
+
+        /***************************************************************************
+         * This for loop populate the ArrayList<Ingredients> and reads its elements *
+         ***************************************************************************/
         for(int i = 0; i< ingredientsList.size(); i ++){
             textView.append("\u2022" + ingredientsList.get(i).getIngredient() +"\n");
             textView.append("\t\t\t " + "\u25a3 " + "Quantity: " + ingredientsList.get(i).getQuantity()+"\n");
@@ -88,7 +98,7 @@ public class RecipeDetailFragment extends Fragment{
         mRecyclerView.setAdapter(stepsAdapter);
 
         //update widget
-        UpdateRecipeWidgetService.startBakingService(getContext(), (ArrayList<Ingredients>) ingredientsList);
+        UpdateRecipeWidgetService.startBakingService(getContext(), (ArrayList<Recipe>) recipeArrayList);
 
         return view;
     }

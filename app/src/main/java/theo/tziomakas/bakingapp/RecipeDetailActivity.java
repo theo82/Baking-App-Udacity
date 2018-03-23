@@ -67,12 +67,12 @@ public class RecipeDetailActivity extends AppCompatActivity implements RecipeDet
             ingredientsList = recipe.get(0).getIngredients();
 
 
+
             ingredients = new Gson().toJson(ingredientsList);
 
             PreferenceManager.getDefaultSharedPreferences(this)
                     .edit().putString("ingredients",ingredients)
                     .apply();
-
             //addIngredients(ingredients);
 
 
