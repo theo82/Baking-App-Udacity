@@ -28,3 +28,11 @@ Widget displays ingredient list for desired recipe.
 ![screenshot_1521812713](https://user-images.githubusercontent.com/7755518/37832492-71f65a32-2eb1-11e8-9733-380bc84c3862.png)
 
 **TABLET LAYOUT**
+
+![screenshot_1521813009](https://user-images.githubusercontent.com/7755518/37833031-f91b57b4-2eb2-11e8-8640-bd76564dc2ad.png)
+
+
+![screenshot_1521813026](https://user-images.githubusercontent.com/7755518/37833032-f9485908-2eb2-11e8-9c36-77d3f77072f2.png)
+
+
+![screenshot_1521813079](https://user-images.githubusercontent.com/7755518/37833033-f96ecca0-2eb2-11e8-908a-987584df790e.png)
