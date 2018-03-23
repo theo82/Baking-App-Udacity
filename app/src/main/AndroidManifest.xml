@@ -25,14 +25,17 @@
 
         <receiver android:name=".widget.RecipeAppWidgetProvider">
             <intent-filter>
-                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE"/>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE2"/>
             </intent-filter>
 
             <meta-data
                 android:name="android.appwidget.provider"
                 android:resource="@xml/recipe_app_widget_info" />
         </receiver>
-        <service android:name=".widget.RecipeIngredientService"
+        <service android:name=".widget.UpdateRecipeWidgetService"/>
+
+        <service android:name=".widget.GridWidgetService"
             android:permission="android.permission.BIND_REMOTEVIEWS"
             />
     </application>
