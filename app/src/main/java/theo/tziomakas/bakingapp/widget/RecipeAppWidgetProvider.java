@@ -34,12 +34,7 @@ public class RecipeAppWidgetProvider extends AppWidgetProvider {
         RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.widget_grid_view);
 
         // Construct the RemoteViews object
-        Intent appIntent = new Intent(context, RecipeDetailActivity.class);
-        appIntent.addCategory(Intent.ACTION_MAIN);
-        appIntent.addCategory(Intent.CATEGORY_LAUNCHER);
-        appIntent.addFlags(Intent.FLAG_ACTIVITY_BROUGHT_TO_FRONT|Intent.FLAG_ACTIVITY_SINGLE_TOP);
-        PendingIntent appPendingIntent = PendingIntent.getActivity(context, 0, appIntent, PendingIntent.FLAG_UPDATE_CURRENT);
-        views.setPendingIntentTemplate(R.id.widget_grid_view, appPendingIntent);
+
 
         // Set the GridWidgetService intent to act as the adapter for the GridView
         Intent intent = new Intent(context, GridWidgetService.class);
