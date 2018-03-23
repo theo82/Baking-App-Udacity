@@ -11,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -30,6 +31,7 @@ import com.google.android.exoplayer2.ui.SimpleExoPlayerView;
 import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory;
 import com.google.android.exoplayer2.upstream.DefaultHttpDataSourceFactory;
 import com.google.android.exoplayer2.util.Util;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -111,6 +113,13 @@ public class RecipeStepDetailFragment extends Fragment {
             recipeDesciption = stepsArrayList.get(selectedIndex).getDescription();
             mPlayerView = v.findViewById(R.id.playerView);
             //mPlayerView.setResizeMode(AspectRatioFrameLayout.RESIZE_MODE_FIT);
+
+            String imageUrl=stepsArrayList.get(selectedIndex).getThumbnailUrl();
+            if (imageUrl!="") {
+                Uri builtUri = Uri.parse(imageUrl).buildUpon().build();
+                ImageView thumbImage = (ImageView) v.findViewById(R.id.thumbImage);
+                Picasso.with(getContext()).load(builtUri).into(thumbImage);
+            }
 
             if (!videoUrl.isEmpty()) {
                 initializePlayer();

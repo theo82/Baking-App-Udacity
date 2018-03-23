@@ -58,7 +58,7 @@ public class MainActivityFragment extends Fragment
 
         mRecyclerView = view.findViewById(R.id.recipe_recycler_view);
 
-        mRecipeAdapter = new RecipeAdapter((MainActivity)getActivity(),mRecipeList);
+        mRecipeAdapter = new RecipeAdapter(getActivity(),(MainActivity)getActivity(),mRecipeList);
         mRecyclerView.setAdapter(mRecipeAdapter);
 
         if (view.getTag()!=null && view.getTag().equals("phone-land")){

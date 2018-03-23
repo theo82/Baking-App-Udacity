@@ -1,11 +1,13 @@
 package theo.tziomakas.bakingapp.adapters;
 
 import android.content.Context;
+import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -27,6 +29,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
@@ -48,8 +53,8 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeView
         void onClick(Recipe clickedItemIndex);
     }
 
-    public RecipeAdapter(RecipeAdapterOnClickHandler mClickHandler, List<Recipe> recipeList) {
-        //this.context = context;
+    public RecipeAdapter(Context context,RecipeAdapterOnClickHandler mClickHandler, List<Recipe> recipeList) {
+        this.context = context;
         this.recipeList = recipeList;
         this.mClickHandler = mClickHandler;
     }
@@ -74,6 +79,13 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeView
 
         Recipe recipe = recipeList.get(position);
         holder.mRecipeName.setText(recipe.getRecipeName());
+        if(recipe.getImage() != null){
+            Uri builtUri = Uri.parse(recipe.getImage()).buildUpon().build();
+            Picasso.with(context)
+                    .load(builtUri)
+                    .placeholder(R.drawable.ic_broken_image_black_24dp)
+                    .into(holder.mImageView);
+        }
         Log.v(LOG_TAG,recipe.getRecipeName());
 
     }
@@ -91,17 +103,20 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeView
     public class RecipeViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
 
         TextView mRecipeName;
+        ImageView mImageView;
 
         public RecipeViewHolder(View itemView) {
             super(itemView);
             itemView.setOnClickListener(this);
             mRecipeName = itemView.findViewById(R.id.recipe_name_text_view);
+            mImageView = itemView.findViewById(R.id.recipeImage);
         }
 
         @Override
         public void onClick(View v) {
             int adapterPosition = getAdapterPosition();
             mClickHandler.onClick(recipeList.get(adapterPosition));
+
         }
     }
 }

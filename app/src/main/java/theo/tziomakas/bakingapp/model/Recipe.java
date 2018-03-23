@@ -13,23 +13,24 @@ public class Recipe implements Parcelable{
 
     private int recipeId;
     private String recipeName;
+    private int servings;
+    private String image;
 
-
+    private List<Ingredients> ingredients;
+    private List<Steps> steps;
 
     public Recipe(int recipeId, String recipeName, int servings, String image, List<Ingredients> ingredients, List<Steps> steps) {
         this.recipeId = recipeId;
         this.recipeName = recipeName;
+        this.image = image;
         this.servings = servings;
         this.image = image;
         this.ingredients = ingredients;
         this.steps = steps;
     }
 
-    private int servings;
-    private String image;
 
-    private List<Ingredients> ingredients;
-    private List<Steps> steps;
+
 
     public int getRecipeId() {
         return recipeId;
