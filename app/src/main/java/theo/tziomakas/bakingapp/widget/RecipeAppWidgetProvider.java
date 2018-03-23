@@ -8,12 +8,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.widget.RemoteViews;
 
-import java.security.Provider;
-
-import theo.tziomakas.bakingapp.MainActivity;
 import theo.tziomakas.bakingapp.R;
 import theo.tziomakas.bakingapp.RecipeDetailActivity;
-import theo.tziomakas.bakingapp.fragments.MainActivityFragment;
 
 /**
  * Implementation of App Widget functionality.
@@ -34,7 +30,7 @@ public class RecipeAppWidgetProvider extends AppWidgetProvider {
         views.setPendingIntentTemplate(R.id.widget_grid_view, appPendingIntent);
 
         // Set the GridWidgetService intent to act as the adapter for the GridView
-        Intent intent = new Intent(context, RecipeIngredientService.class);
+        Intent intent = new Intent(context, GridWidgetService.class);
         views.setRemoteAdapter(R.id.widget_grid_view, intent);
 
         // Instruct the widget manager to update the widget
@@ -44,6 +40,12 @@ public class RecipeAppWidgetProvider extends AppWidgetProvider {
     @Override
     public void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds) {
         // There may be multiple widgets active, so update all of them
+        for (int appWidgetId : appWidgetIds) {
+            updateAppWidget(context, appWidgetManager, appWidgetId);
+        }
+    }
+
+    public static void updateRecipeWidgets(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds) {
         for (int appWidgetId : appWidgetIds) {
             updateAppWidget(context, appWidgetManager, appWidgetId);
         }

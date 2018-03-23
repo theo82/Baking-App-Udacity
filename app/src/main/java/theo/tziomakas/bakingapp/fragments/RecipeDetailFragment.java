@@ -89,6 +89,7 @@ public class RecipeDetailFragment extends Fragment{
         super.onSaveInstanceState(outState);
 
         outState.putParcelable(LAYOUT_STATE, mRecyclerView.getLayoutManager().onSaveInstanceState());
+
     }
 
     @Override

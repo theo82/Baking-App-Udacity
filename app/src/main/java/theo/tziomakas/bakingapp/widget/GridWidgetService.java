@@ -22,7 +22,7 @@ import theo.tziomakas.bakingapp.model.Ingredients;
  */
 
 
-public class RecipeIngredientService extends RemoteViewsService{
+public class GridWidgetService extends RemoteViewsService{
     @Override
     public RemoteViewsFactory onGetViewFactory(Intent intent) {
         return new IngredientsListRemoteViewFactory(this.getApplicationContext());

@@ -168,7 +168,7 @@ public class RecipeDetailActivity extends AppCompatActivity implements RecipeDet
     @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-
+        outState.putParcelableArrayList("recipeList",recipe);
         outState.putString("recipeName",recipeName);
     }
 
