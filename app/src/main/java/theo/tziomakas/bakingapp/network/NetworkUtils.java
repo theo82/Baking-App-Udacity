@@ -225,7 +225,7 @@ public class NetworkUtils {
     /**
      * Query the dataset and return a list of {@link Recipe} objects.
      */
-    public static List<Recipe> fetchMoviesData(String requestUrl){
+    public static List<Recipe> fetchRecipeData(String requestUrl){
         URL url = createURL(requestUrl);
 
         String jsonResponse = null;

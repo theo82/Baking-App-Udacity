@@ -37,7 +37,7 @@ public class RecipeLoader extends AsyncTaskLoader<List<Recipe>> {
             return null;
         }
 
-        List<Recipe> result = NetworkUtils.fetchMoviesData(url);
+        List<Recipe> result = NetworkUtils.fetchRecipeData(url);
 
         return result;
     }
